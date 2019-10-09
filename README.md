@@ -1,7 +1,7 @@
 # react-services
 react-services
 
-#install
+# install
 ```
 npm i @markab.io/react
 ```
