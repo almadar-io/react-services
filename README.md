@@ -3,5 +3,5 @@ react-services
 
 # install
 ```
-npm i @markab.io/react
+npm i @markab.io/react --save
 ```
