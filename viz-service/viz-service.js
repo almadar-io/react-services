@@ -1,179 +1,171 @@
 import { observer } from "mobx-react";
-import { observable, action, runInAction, toJS } from "mobx";
+import { types } from "mobx-state-tree";
 import React from "react";
 import axios from "axios";
 
 //export store
-export class vizDomainStore {
-  modelName;
-  mapStore = observable.map();
-  rootStore;
-  SERVER;
-  offlineStorage;
-  notificationDomainStore;
-  constructor(rootStore, offlineStorage, SERVER, notificationDomainStore) {
-    this.rootStore = rootStore;
-    this.notificationDomainStore = notificationDomainStore;
-    if (offlineStorage) {
-      this.offlineStorage = offlineStorage;
-    }
-    this.SERVER = SERVER;
-  }
-  @action
-  forceUpdate(modelName) {
-    let current = this.mapStore.get(modelName);
-    this.mapStore.set(modelName, []);
-    this.mapStore.set(modelName, current);
-  }
-  @action
-  getModel(query, modelName, refresh, transform) {
-    //cached data, you don't have to hit up he end point
-    if (this.mapStore.get(modelName) && !refresh) {
-      return;
-    }
-    return this.offlineStorage
-      .getItem("jwtToken")
-      .then(token => {
-        return axios
-          .get(`${this.SERVER.host}:${this.SERVER.port}/${modelName}`, {
-            params: { token, query }
-          })
-          .then(res => {
-            runInAction(() => {
-              if (transform) {
-                let transformedModel = transform(res.data);
-                return this.mapStore.set(modelName, transformedModel);
-              }
-              this.mapStore.set(modelName, res.data);
-            });
+export const getVizDomainStore = (
+  modelName,
+  offlineStorage,
+  SERVER,
+  notificationDomainStore
+) =>
+  types
+    .model({
+      id: types.identifier,
+      state: types.frozen(),
+      status: types.string,
+      loading: types.optional(types.boolean, true)
+    })
+    .actions(self => ({
+      fetchModel(query) {
+        self.loading = true;
+        return offlineStorage
+          .getItem("jwtToken")
+          .then(token => {
+            return axios
+              .get(`${SERVER.host}:${SERVER.port}/${modelName}`, {
+                params: { token, query }
+              })
+              .then(res => {
+                self.setSuccess(res.data);
+              })
+              .catch(err => {
+                self.setError(err);
+              });
           })
           .catch(err => {
-            this.setError(modelName, err);
+            return self.setError(err);
           });
-      })
-      .catch(err => {
-        return this.setError(modelName, err);
-      });
-  }
-  @action
-  createModel(modelName, model) {
-    return this.offlineStorage.getItem("jwtToken").then(token => {
-      return axios
-        .post(`${this.SERVER.host}:${this.SERVER.port}/${modelName}/create`, {
-          model,
-          token
-        })
-        .then(res => {
-          let current = this.mapStore.get(modelName);
-          this.mapStore.set(modelName, [...current, res.data]);
-          this.setSuccess(modelName, `${modelName} successfully created!`);
-          return res.data;
-        })
-        .catch(err => {
-          console.log("hellooooo", err);
-          return this.setError(modelName, err);
+      },
+      average(model) {
+        self.loading = true;
+        return offlineStorage.getItem("jwtToken").then(token => {
+          return axios
+            .post(`${SERVER.host}:${SERVER.port}/${modelName}/create`, {
+              model,
+              token
+            })
+            .then(res => {
+              self.setSuccess(
+                [...self.state, model],
+                `${modelName} successfully created!`
+              );
+              return res.data;
+            })
+            .catch(err => {
+              return self.setError(err);
+            });
         });
-    });
-  }
-  @action
-  updateModel(modelName, model, updateValues) {
-    let extractedModel = toJS(model);
-    Object.keys(updateValues).map(key => {
-      model[key] = updateValues[key];
-    });
-    return this.offlineStorage.getItem("jwtToken").then(token => {
-      return axios
-        .put(`${this.SERVER.host}:${this.SERVER.port}/${modelName}`, {
-          model,
-          token
-        })
-        .then(res => {
-          let updatedModel = this.mapStore
-            .get(modelName)
-            .map(cModel => (cModel._id === model._id ? model : cModel));
-          this.mapStore.set(modelName, updatedModel);
-          this.setSuccess(modelName, `${modelName} successfully updated!`);
-          return res.data;
-        })
-        .catch(err => {
-          return this.setError(modelName, err);
+      },
+      count(model, updateValues) {
+        self.loading = true;
+        Object.keys(updateValues).map(key => {
+          model[key] = updateValues[key];
         });
-    });
-  }
-  @action
-  deleteModel(modelName, model) {
-    model.deleted = true;
-    this.forceUpdate(modelName);
-    return this.offlineStorage.getItem("jwtToken").then(token => {
-      return axios
-        .delete(
-          `${this.SERVER.host}:${this.SERVER.port}/${modelName}/${model._id}`,
-          {
-            params: { token }
-          }
-        )
-        .then(res => {
-          this.setSuccess(modelName, `${modelName} successfully deleted!`);
-          return res.data;
-        })
-        .catch(err => {
-          return this.setError(modelName, err);
+        return offlineStorage.getItem("jwtToken").then(token => {
+          return axios
+            .put(`${SERVER.host}:${SERVER.port}/${modelName}`, {
+              model,
+              token
+            })
+            .then(res => {
+              self.setSuccess(
+                [...self.state.filter(m => model._id !== m._id), model],
+                `${modelName} successfully updated!`
+              );
+            })
+            .catch(err => {
+              return self.setError(err);
+            });
         });
-    });
-  }
-  @action
-  searchModel(modelName, query) {
-    return this.offlineStorage.getItem("jwtToken").then(token => {
-      return axios
-        .post(`${this.SERVER.host}:${this.SERVER.port}/${modelName}/search`, {
-          query,
-          token
-        })
-        .then(res => {
-          return res.data;
-        })
-        .catch(err => {
-          return this.setError(modelName, err);
+      },
+      distinct(model) {
+        self.loading = true;
+        return offlineStorage.getItem("jwtToken").then(token => {
+          return axios
+            .delete(`${SERVER.host}:${SERVER.port}/${modelName}/${model._id}`, {
+              params: { token }
+            })
+            .then(res => {
+              self.setSuccess(
+                self.state.filter(m => m !== model),
+                `${modelName} successfully deleted!`
+              );
+            })
+            .catch(err => {
+              return self.setError(err);
+            });
         });
-    });
-  }
-  @action
-  setError(modelName, err) {
-    if (this.notificationDomainStore) {
-      this.notificationDomainStore.saveNotification(modelName, {
-        message: err && err.response && err.response.data.message,
-        type: "error"
-      });
-    }
-  }
-  @action
-  setSuccess(modelName, successMessage) {
-    if (this.notificationDomainStore) {
-      this.notificationDomainStore.saveNotification(modelName, {
-        message: successMessage,
-        type: "success"
-      });
-    }
-  }
-  @action
-  getAppSettings() {
-    return this.offlineStorage.getItem("jwtToken").then(token => {
-      return axios
-        .get(`${this.SERVER.host}:${this.SERVER.port}/settings`, {
-          params: { token }
-        })
-        .then(res => {
-          runInAction(() => {
-            this.mapStore.set("settings", res.data);
+      },
+      aggregate(query) {
+        self.loading = true;
+        return offlineStorage.getItem("jwtToken").then(token => {
+          return axios
+            .post(`${SERVER.host}:${SERVER.port}/${modelName}/search`, {
+              query,
+              token
+            })
+            .then(res => {
+              return res.data;
+            })
+            .catch(err => {
+              console.log("err", err);
+              return self.setError(err);
+            });
+        });
+      },
+      aggregates(query, modelName) {
+        self.loading = true;
+        return offlineStorage.getItem("jwtToken").then(token => {
+          return axios
+            .post(`${SERVER.host}:${SERVER.port}/${modelName}/search`, {
+              query,
+              token
+            })
+            .then(res => {
+              return res.data;
+            })
+            .catch(err => {
+              console.log("err", err);
+              return self.setError(err);
+            });
+        });
+      },
+      setError(err) {
+        self.loading = false;
+        if (notificationDomainStore) {
+          notificationDomainStore.saveNotification(modelName, {
+            message: !err.response
+              ? err
+              : err && err.response && err.response.data.message,
+            type: "error"
           });
-          return res.data[0];
-        })
-        .catch(err => {
-          this.setError("settings", err);
-        });
-    });
-  }
-}
+        }
+        self.status = "error";
+      },
+      setSuccess(data, successMessage) {
+        self.loading = false;
+        if (notificationDomainStore && successMessage) {
+          notificationDomainStore.saveNotification(modelName, {
+            message: successMessage,
+            type: "success"
+          });
+        }
+        if (data) {
+          self.state = data;
+        }
+        self.status = "success";
+      }
+    }))
+    .views(self => ({
+      sum(query) {
+        return self.state;
+      },
+      isLoading() {
+        return self.loading;
+      }
+    }));
 
 const injectProps = (
   vizDomainStore,
@@ -184,41 +176,31 @@ const injectProps = (
   transform
 ) => {
   let injected = {
-    model: transform
-      ? transform(vizDomainStore.mapStore.get(modelName))
-      : vizDomainStore.mapStore.get(modelName),
-    getModel: query =>
-      vizDomainStore.getModel(query, modelName, true, transform),
-    createModel: model => vizDomainStore.createModel(modelName, model),
-    updateModel: (model, updateValues) =>
-      vizDomainStore.updateModel(modelName, model, updateValues),
-    deleteModel: model => vizDomainStore.deleteModel(modelName, model),
-    query: query,
     ...props,
     ...child.props
   };
-
-  injected[modelName] = vizDomainStore.mapStore.get(modelName);
-
-  injected[`${modelName}_getModel`] = query => {
-    vizDomainStore.getModel(query, modelName, true, transform);
+  injected[modelName] = transform
+    ? transform(vizDomainStore.state)
+    : vizDomainStore.state;
+  injected[`${modelName}_sum`] = query => {
+    vizDomainStore.sum(query, true, transform);
   };
-  injected[`${modelName}_createModel`] = model =>
-    vizDomainStore.createModel(modelName, model);
+  injected[`${modelName}_average`] = model =>
+    vizDomainStore.average(model);
 
-  injected[`${modelName}_updateModel`] = (model, updateValues) =>
-    vizDomainStore.updateModel(modelName, model, updateValues);
+  injected[`${modelName}_count`] = (model, updateValues) =>
+    vizDomainStore.count(model, updateValues);
 
-  injected[`${modelName}_deleteModel`] = model =>
-    vizDomainStore.deleteModel(modelName, model);
+  injected[`${modelName}_distinct`] = model =>
+    vizDomainStore.distinct(model);
 
-  injected[`${modelName}_searchModel`] = query =>
-    vizDomainStore.searchModel(modelName, query);
+  injected[`${modelName}_aggregate`] = query =>
+    vizDomainStore.aggregate(query);
 
-  injected[`searchModels`] = (modelNames, query) => {
-    let promises = modelNames.map(modelName => {
-      return vizDomainStore.searchModel(modelName, query).then(res => {
-        return { modelName, res };
+  injected[`aggregates`] = (query, modelNames) => {
+    let promises = modelNames.map(mName => {
+      return vizDomainStore.aggregates(query, mName).then(res => {
+        return { res };
       });
     });
     return promises;
@@ -226,14 +208,16 @@ const injectProps = (
 
   injected[`${modelName}_query`] = query;
 
+  injected[`${modelName}_loading`] = vizDomainStore.isLoading();
+
   return injected;
 };
 
 //determine the theme here and load the right login information?
-@observer
-export class Viz extends React.Component {
+class VizContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.stores = {};
   }
   componentDidMount() {}
   componentWillReceiveProps(nextProps) {}
@@ -242,45 +226,53 @@ export class Viz extends React.Component {
     let {
       modelName,
       children,
-      vizDomainStore,
       skipLoadOnInit,
       query,
-      transform
+      transform,
+      offlineStorage,
+      SERVER,
+      notificationDomainStore
     } = this.props;
-    if (modelName && !skipLoadOnInit) {
-      vizDomainStore.getModel(query, modelName, false);
+    if (modelName && !this.stores[modelName] && !skipLoadOnInit) {
+      const vizDomainStore = getVizDomainStore(
+        modelName,
+        offlineStorage,
+        SERVER,
+        notificationDomainStore,
+        transform
+      ).create({
+        state: [],
+        id: "1",
+        status: "initial"
+      });
+      vizDomainStore.fetchModel();
+      this.stores[modelName] = vizDomainStore;
     }
     const childrenWithProps = React.Children.map(children, child => {
       let injectedProps = injectProps(
-        vizDomainStore,
+        this.stores[modelName],
         modelName,
         this.props,
         child,
         query,
         transform
       );
-      return React.cloneElement(child, injectedProps);
+      return React.cloneElement(child, { ...injectedProps });
     });
     return <React.Fragment>{childrenWithProps}</React.Fragment>;
   }
 }
 
 export function withViz(WrappedComponent) {
-  @observer
   class WithViz extends React.Component {
     constructor(props) {
       super(props);
     }
-    componentDidMount() {
-      let { modelName, vizDomainStore, query } = this.props;
-      vizDomainStore.getModel(query, modelName, false);
-    }
     componentWillReceiveProps() {}
     render() {
-      let { modelName, vizDomainStore, query, transform } = this.props;
+      let { vizDomainStore, query, transform } = this.props;
       let injectedProps = injectProps(
         vizDomainStore,
-        modelName,
         this.props,
         this,
         query,
@@ -289,5 +281,7 @@ export function withViz(WrappedComponent) {
       return <WrappedComponent {...injectedProps} />;
     }
   }
-  return WithViz;
+  return observer(WithViz);
 }
+
+export const Viz = observer(VizContainer);
