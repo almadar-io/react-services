@@ -3,6 +3,13 @@ import { types } from "mobx-state-tree";
 import React from "react";
 import axios from "axios";
 
+//period has to be: Daily, Monthly, Yearly
+const getUrl = (fn, SERVER, modelName, period) => {
+  return `${SERVER.host}:${SERVER.port}/${modelName}/${fn}/${
+    period ? "time/" : ""
+  }${period ? `${period}/` : ""}`;
+};
+
 //export store
 export const getVizDomainStore = (
   modelName,
@@ -18,39 +25,18 @@ export const getVizDomainStore = (
       loading: types.optional(types.boolean, true)
     })
     .actions(self => ({
-      fetchModel(query) {
-        self.loading = true;
-        return offlineStorage
-          .getItem("jwtToken")
-          .then(token => {
-            return axios
-              .get(`${SERVER.host}:${SERVER.port}/${modelName}`, {
-                params: { token, query }
-              })
-              .then(res => {
-                self.setSuccess(res.data);
-              })
-              .catch(err => {
-                self.setError(err);
-              });
-          })
-          .catch(err => {
-            return self.setError(err);
-          });
-      },
-      average(model) {
+      average(query, period) {
         self.loading = true;
         return offlineStorage.getItem("jwtToken").then(token => {
           return axios
-            .post(`${SERVER.host}:${SERVER.port}/${modelName}/create`, {
-              model,
-              token
+            .get(getUrl("average", SERVER, modelName, period), {
+              params: {
+                token,
+                query
+              }
             })
             .then(res => {
-              self.setSuccess(
-                [...self.state, model],
-                `${modelName} successfully created!`
-              );
+              self.setSuccess(`${modelName} successfully created!`);
               return res.data;
             })
             .catch(err => {
@@ -58,53 +44,52 @@ export const getVizDomainStore = (
             });
         });
       },
-      count(model, updateValues) {
+      count(query, period) {
         self.loading = true;
-        Object.keys(updateValues).map(key => {
-          model[key] = updateValues[key];
-        });
         return offlineStorage.getItem("jwtToken").then(token => {
           return axios
-            .put(`${SERVER.host}:${SERVER.port}/${modelName}`, {
-              model,
-              token
+            .get(getUrl("count", SERVER, modelName, period), {
+              params: {
+                token,
+                query
+              }
             })
             .then(res => {
-              self.setSuccess(
-                [...self.state.filter(m => model._id !== m._id), model],
-                `${modelName} successfully updated!`
-              );
+              self.setSuccess(`${modelName} successfully updated!`);
+              return res.data && res.data.res ? res.data.res : res.data.count;
             })
             .catch(err => {
               return self.setError(err);
             });
         });
       },
-      distinct(model) {
+      sum(query, period) {
         self.loading = true;
         return offlineStorage.getItem("jwtToken").then(token => {
           return axios
-            .delete(`${SERVER.host}:${SERVER.port}/${modelName}/${model._id}`, {
-              params: { token }
+            .get(getUrl("sum", SERVER, modelName, period), {
+              params: {
+                token,
+                query
+              }
             })
             .then(res => {
-              self.setSuccess(
-                self.state.filter(m => m !== model),
-                `${modelName} successfully deleted!`
-              );
+              self.setSuccess(`${modelName} successfully deleted!`);
             })
             .catch(err => {
               return self.setError(err);
             });
         });
       },
-      aggregate(query) {
+      aggregate(query, period) {
         self.loading = true;
         return offlineStorage.getItem("jwtToken").then(token => {
           return axios
-            .post(`${SERVER.host}:${SERVER.port}/${modelName}/search`, {
-              query,
-              token
+            .get(getUrl("distinct", SERVER, modelName, period), {
+              params: {
+                token,
+                query
+              }
             })
             .then(res => {
               return res.data;
@@ -119,7 +104,7 @@ export const getVizDomainStore = (
         self.loading = true;
         return offlineStorage.getItem("jwtToken").then(token => {
           return axios
-            .post(`${SERVER.host}:${SERVER.port}/${modelName}/search`, {
+            .get(`${SERVER.host}:${SERVER.port}/${modelName}/search`, {
               query,
               token
             })
@@ -144,58 +129,34 @@ export const getVizDomainStore = (
         }
         self.status = "error";
       },
-      setSuccess(data, successMessage) {
+      setSuccess(successMessage) {
         self.loading = false;
-        if (notificationDomainStore && successMessage) {
-          notificationDomainStore.saveNotification(modelName, {
-            message: successMessage,
-            type: "success"
-          });
-        }
-        if (data) {
-          self.state = data;
-        }
-        self.status = "success";
       }
     }))
     .views(self => ({
-      sum(query) {
-        return self.state;
-      },
       isLoading() {
         return self.loading;
       }
     }));
 
-const injectProps = (
-  vizDomainStore,
-  modelName,
-  props,
-  child,
-  query,
-  transform
-) => {
+const injectProps = (vizDomainStore, modelName, props, child, query) => {
   let injected = {
     ...props,
     ...child.props
   };
-  injected[modelName] = transform
-    ? transform(vizDomainStore.state)
-    : vizDomainStore.state;
+
   injected[`${modelName}_sum`] = query => {
     vizDomainStore.sum(query, true, transform);
   };
-  injected[`${modelName}_average`] = model =>
-    vizDomainStore.average(model);
+  injected[`${modelName}_average`] = query => vizDomainStore.average(model);
 
   injected[`${modelName}_count`] = (model, updateValues) =>
     vizDomainStore.count(model, updateValues);
 
-  injected[`${modelName}_distinct`] = model =>
-    vizDomainStore.distinct(model);
+  injected[`${modelName}_distinct`] = query => vizDomainStore.distinct(model);
 
   injected[`${modelName}_aggregate`] = query =>
-    vizDomainStore.aggregate(query);
+    vizDomainStore.aggregate(query, period);
 
   injected[`aggregates`] = (query, modelNames) => {
     let promises = modelNames.map(mName => {
@@ -245,7 +206,6 @@ class VizContainer extends React.Component {
         id: "1",
         status: "initial"
       });
-      vizDomainStore.fetchModel();
       this.stores[modelName] = vizDomainStore;
     }
     const childrenWithProps = React.Children.map(children, child => {
