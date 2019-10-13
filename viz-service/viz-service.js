@@ -4,7 +4,10 @@ import React from "react";
 import axios from "axios";
 
 //period has to be: Daily, Monthly, Yearly
-const getUrl = (fn, SERVER, modelName, period) => {
+const getUrl = (fn, SERVER, modelName, period, field) => {
+  if (field) {
+    return `${SERVER.host}:${SERVER.port}/${modelName}/${fn}/${field}`;
+  }
   return `${SERVER.host}:${SERVER.port}/${modelName}/${fn}/${
     period ? "time/" : ""
   }${period ? `${period}/` : ""}`;
@@ -25,7 +28,7 @@ export const getVizDomainStore = (
       loading: types.optional(types.boolean, true)
     })
     .actions(self => ({
-      average(query, period) {
+      average(query, period, field) {
         self.loading = true;
         return offlineStorage.getItem("jwtToken").then(token => {
           return axios
@@ -44,11 +47,11 @@ export const getVizDomainStore = (
             });
         });
       },
-      count(query, period) {
+      count(query, period, field) {
         self.loading = true;
         return offlineStorage.getItem("jwtToken").then(token => {
           return axios
-            .get(getUrl("count", SERVER, modelName, period), {
+            .get(getUrl("count", SERVER, modelName, period, field), {
               params: {
                 token,
                 query
@@ -63,7 +66,7 @@ export const getVizDomainStore = (
             });
         });
       },
-      sum(query, period) {
+      sum(query, period, field) {
         self.loading = true;
         return offlineStorage.getItem("jwtToken").then(token => {
           return axios
@@ -81,7 +84,7 @@ export const getVizDomainStore = (
             });
         });
       },
-      aggregate(query, period) {
+      aggregate(query, period, field) {
         self.loading = true;
         return offlineStorage.getItem("jwtToken").then(token => {
           return axios
@@ -145,18 +148,20 @@ const injectProps = (vizDomainStore, modelName, props, child, query) => {
     ...child.props
   };
 
-  injected[`${modelName}_sum`] = query => {
-    vizDomainStore.sum(query, true, transform);
+  injected[`${modelName}_sum`] = (query, period, field) => {
+    vizDomainStore.sum(query, period, field);
   };
-  injected[`${modelName}_average`] = query => vizDomainStore.average(model);
+  injected[`${modelName}_average`] = (query, period, field) =>
+    vizDomainStore.average(query, period, field);
 
-  injected[`${modelName}_count`] = (model, updateValues) =>
-    vizDomainStore.count(model, updateValues);
+  injected[`${modelName}_count`] = (query, period, field) =>
+    vizDomainStore.count(query, period, field);
 
-  injected[`${modelName}_distinct`] = query => vizDomainStore.distinct(model);
+  injected[`${modelName}_distinct`] = (query, period, field) =>
+    vizDomainStore.distinct(query, period, field);
 
   injected[`${modelName}_aggregate`] = query =>
-    vizDomainStore.aggregate(query, period);
+    vizDomainStore.aggregate(query, period, field);
 
   injected[`aggregates`] = (query, modelNames) => {
     let promises = modelNames.map(mName => {
@@ -166,10 +171,6 @@ const injectProps = (vizDomainStore, modelName, props, child, query) => {
     });
     return promises;
   };
-
-  injected[`${modelName}_query`] = query;
-
-  injected[`${modelName}_loading`] = vizDomainStore.isLoading();
 
   return injected;
 };

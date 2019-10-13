@@ -3,6 +3,11 @@ import { types } from "mobx-state-tree";
 import React from "react";
 import axios from "axios";
 
+const Filter = types.model("Filter", {
+  name: types.string,
+  value: types.string
+});
+
 //export store
 export const getCrudDomainStore = (
   modelName,
@@ -16,20 +21,23 @@ export const getCrudDomainStore = (
       id: types.identifier,
       state: types.frozen(),
       status: types.string,
-      loading: types.optional(types.boolean, true)
+      loading: types.optional(types.boolean, true),
+      filters: types.array(Filter)
     })
     .actions(self => ({
-      fetchModel(query) {
+      fetchModel() {
         self.loading = true;
         return offlineStorage
           .getItem("jwtToken")
           .then(token => {
             return axios
               .get(`${SERVER.host}:${SERVER.port}/${modelName}`, {
-                params: { token, query }
+                params: { token }
               })
               .then(res => {
-                self.setSuccess(res.data);
+                transform
+                  ? self.setSuccess(transform(res.data))
+                  : self.setSuccess(res.data);
               })
               .catch(err => {
                 self.setError(err);
@@ -133,6 +141,16 @@ export const getCrudDomainStore = (
             });
         });
       },
+      setFilter(filter) {
+        //add if not already defined
+        const foundFilter = self.filters.find(f => f.name === filter.name);
+        if (!foundFilter) {
+          self.filters.push(filter);
+        }
+      },
+      removeFilter(filter) {
+        self.filters = self.filters.filter(f => f.name !== filter.name);
+      },
       setError(err) {
         self.loading = false;
         if (notificationDomainStore) {
@@ -160,7 +178,7 @@ export const getCrudDomainStore = (
       }
     }))
     .views(self => ({
-      getModel(query) {
+      getModel() {
         return self.state;
       },
       isLoading() {
@@ -168,14 +186,7 @@ export const getCrudDomainStore = (
       }
     }));
 
-const injectProps = (
-  crudDomainStore,
-  modelName,
-  props,
-  child,
-  query,
-  transform
-) => {
+const injectProps = (crudDomainStore, modelName, props, child, transform) => {
   let injected = {
     ...props,
     ...child.props
@@ -183,8 +194,8 @@ const injectProps = (
   injected[modelName] = transform
     ? transform(crudDomainStore.state)
     : crudDomainStore.state;
-  injected[`${modelName}_getModel`] = query => {
-    crudDomainStore.getModel(query, true, transform);
+  injected[`${modelName}_getModel`] = () => {
+    crudDomainStore.getModel(transform);
   };
   injected[`${modelName}_createModel`] = model =>
     crudDomainStore.createModel(model);
@@ -207,7 +218,11 @@ const injectProps = (
     return promises;
   };
 
-  injected[`${modelName}_query`] = query;
+  injected[`${modelName}_set_filter`] = filter =>
+    crudDomainStore.setFilter(filter);
+
+  injected[`${modelName}_remove_filter`] = filter =>
+    crudDomainStore.removeFilter(filter);
 
   injected[`${modelName}_loading`] = crudDomainStore.isLoading();
 
@@ -228,7 +243,6 @@ class CrudContainer extends React.Component {
       modelName,
       children,
       skipLoadOnInit,
-      query,
       transform,
       offlineStorage,
       SERVER,
@@ -255,7 +269,6 @@ class CrudContainer extends React.Component {
         modelName,
         this.props,
         child,
-        query,
         transform
       );
       return React.cloneElement(child, { ...injectedProps });
@@ -270,17 +283,16 @@ export function withCrud(WrappedComponent) {
       super(props);
     }
     componentDidMount() {
-      let { crudDomainStore, query } = this.props;
-      crudDomainStore.getModel(query, false);
+      let { crudDomainStore, transform } = this.props;
+      crudDomainStore.getModel(transform);
     }
     componentWillReceiveProps() {}
     render() {
-      let { crudDomainStore, query, transform } = this.props;
+      let { crudDomainStore, transform } = this.props;
       let injectedProps = injectProps(
         crudDomainStore,
         this.props,
         this,
-        query,
         transform
       );
       return <WrappedComponent {...injectedProps} />;
