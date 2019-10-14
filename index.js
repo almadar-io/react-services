@@ -6,7 +6,8 @@ import {
   withAuth,
   Auth
 } from "./auth-service/auth-service";
-import { Crud, withCrud, crudDomainStore } from "./crud-service/crud-service";
+import { crudDomainStore } from "./crud-service/crud-service";
+import { Crud, withCrud, getCrudDomainStore } from "./crud-service/crud-service-mst";
 import { Event, EventWithCrud } from "./event-service/event-service";
 import { Socket, socketDomainStore } from "./socket-service/socket-service";
 import {

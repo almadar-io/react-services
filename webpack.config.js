@@ -10,7 +10,6 @@ module.exports = {
     adminService: "./admin-service/admin-service.js",
     socketService: "./socket-service/socket-service.js",
     formsService: "./forms-service/forms-service.js",
-    reactViewsService: "./react-views-service/react-views-service",
     index: "./index.js"
   },
   output: {
