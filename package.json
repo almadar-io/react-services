@@ -33,6 +33,7 @@
     "react-game-kit": "^1.0.6",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
+    "react-webcam": "^3.1.1",
     "recompose": "^0.30.0",
     "rrule": "^2.6.0",
     "socket.io-client": "^2.2.0",
