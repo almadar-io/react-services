@@ -8,10 +8,14 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, "lib"),
-    chunkFilename: "[name].bundle.js",
     filename: "[name].js",
-    libraryTarget: "umd",
-    umdNamedDefine: true
+    publicPath: "/lib/"
+  },
+  optimization: {
+    splitChunks: {
+      // include all types of chunks
+      chunks: "all"
+    }
   },
   module: {
     rules: [
