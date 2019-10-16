@@ -7,8 +7,13 @@ import {
   Auth
 } from "./auth-service/auth-service";
 import { crudDomainStore } from "./crud-service/crud-service";
-import { Crud, withCrud, getCrudDomainStore } from "./crud-service/crud-service-mst";
+import {
+  Crud,
+  withCrud,
+  getCrudDomainStore
+} from "./crud-service/crud-service-mst";
 import { Event, EventWithCrud } from "./event-service/event-service";
+import Camera from "./camera-service/camera-service";
 import { Socket, socketDomainStore } from "./socket-service/socket-service";
 import {
   Admin,
@@ -46,5 +51,6 @@ export {
   Game,
   gameDomainStore,
   Event,
-  EventWithCrud
+  EventWithCrud,
+  Camera
 };
