@@ -1,6 +1,6 @@
 {
   "name": "@markab.io/react",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "A way to get up and running quickly with any programming task.",
   "main": "./lib/index.js",
   "scripts": {
