@@ -8,15 +8,15 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, "lib"),
-    filename: "[name].js",
-    publicPath: "/lib/",
-    library: ["react-services", "[name]"],
-    libraryTarget: "umd"
+    chunkFilename: "[name].bundle.js",
+    filename: "[name]",
+    libraryTarget: "umd",
+    umdNamedDefine: true
   },
   optimization: {
     splitChunks: {
       // include all types of chunks
-      chunks: 'all'
+      chunks: "all"
     }
   },
   module: {

@@ -1,0 +1,2956 @@
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(window, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/ 		var executeModules = data[2];
+/******/
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 		// add entry modules from loaded chunk to deferred list
+/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
+/******/
+/******/ 		// run deferred modules when all chunks ready
+/******/ 		return checkDeferredModules();
+/******/ 	};
+/******/ 	function checkDeferredModules() {
+/******/ 		var result;
+/******/ 		for(var i = 0; i < deferredModules.length; i++) {
+/******/ 			var deferredModule = deferredModules[i];
+/******/ 			var fulfilled = true;
+/******/ 			for(var j = 1; j < deferredModule.length; j++) {
+/******/ 				var depId = deferredModule[j];
+/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
+/******/ 			}
+/******/ 			if(fulfilled) {
+/******/ 				deferredModules.splice(i--, 1);
+/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+/******/ 			}
+/******/ 		}
+/******/ 		return result;
+/******/ 	}
+/******/
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		0: 0
+/******/ 	};
+/******/
+/******/ 	var deferredModules = [];
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
+/******/
+/******/
+/******/ 	// add entry module to deferred list
+/******/ 	deferredModules.push([219,1]);
+/******/ 	// run deferred modules when ready
+/******/ 	return checkDeferredModules();
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ 195:
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./af": 29,
+	"./af.js": 29,
+	"./ar": 30,
+	"./ar-dz": 31,
+	"./ar-dz.js": 31,
+	"./ar-kw": 32,
+	"./ar-kw.js": 32,
+	"./ar-ly": 33,
+	"./ar-ly.js": 33,
+	"./ar-ma": 34,
+	"./ar-ma.js": 34,
+	"./ar-sa": 35,
+	"./ar-sa.js": 35,
+	"./ar-tn": 36,
+	"./ar-tn.js": 36,
+	"./ar.js": 30,
+	"./az": 37,
+	"./az.js": 37,
+	"./be": 38,
+	"./be.js": 38,
+	"./bg": 39,
+	"./bg.js": 39,
+	"./bm": 40,
+	"./bm.js": 40,
+	"./bn": 41,
+	"./bn.js": 41,
+	"./bo": 42,
+	"./bo.js": 42,
+	"./br": 43,
+	"./br.js": 43,
+	"./bs": 44,
+	"./bs.js": 44,
+	"./ca": 45,
+	"./ca.js": 45,
+	"./cs": 46,
+	"./cs.js": 46,
+	"./cv": 47,
+	"./cv.js": 47,
+	"./cy": 48,
+	"./cy.js": 48,
+	"./da": 49,
+	"./da.js": 49,
+	"./de": 50,
+	"./de-at": 51,
+	"./de-at.js": 51,
+	"./de-ch": 52,
+	"./de-ch.js": 52,
+	"./de.js": 50,
+	"./dv": 53,
+	"./dv.js": 53,
+	"./el": 54,
+	"./el.js": 54,
+	"./en-SG": 55,
+	"./en-SG.js": 55,
+	"./en-au": 56,
+	"./en-au.js": 56,
+	"./en-ca": 57,
+	"./en-ca.js": 57,
+	"./en-gb": 58,
+	"./en-gb.js": 58,
+	"./en-ie": 59,
+	"./en-ie.js": 59,
+	"./en-il": 60,
+	"./en-il.js": 60,
+	"./en-nz": 61,
+	"./en-nz.js": 61,
+	"./eo": 62,
+	"./eo.js": 62,
+	"./es": 63,
+	"./es-do": 64,
+	"./es-do.js": 64,
+	"./es-us": 65,
+	"./es-us.js": 65,
+	"./es.js": 63,
+	"./et": 66,
+	"./et.js": 66,
+	"./eu": 67,
+	"./eu.js": 67,
+	"./fa": 68,
+	"./fa.js": 68,
+	"./fi": 69,
+	"./fi.js": 69,
+	"./fo": 70,
+	"./fo.js": 70,
+	"./fr": 71,
+	"./fr-ca": 72,
+	"./fr-ca.js": 72,
+	"./fr-ch": 73,
+	"./fr-ch.js": 73,
+	"./fr.js": 71,
+	"./fy": 74,
+	"./fy.js": 74,
+	"./ga": 75,
+	"./ga.js": 75,
+	"./gd": 76,
+	"./gd.js": 76,
+	"./gl": 77,
+	"./gl.js": 77,
+	"./gom-latn": 78,
+	"./gom-latn.js": 78,
+	"./gu": 79,
+	"./gu.js": 79,
+	"./he": 80,
+	"./he.js": 80,
+	"./hi": 81,
+	"./hi.js": 81,
+	"./hr": 82,
+	"./hr.js": 82,
+	"./hu": 83,
+	"./hu.js": 83,
+	"./hy-am": 84,
+	"./hy-am.js": 84,
+	"./id": 85,
+	"./id.js": 85,
+	"./is": 86,
+	"./is.js": 86,
+	"./it": 87,
+	"./it-ch": 88,
+	"./it-ch.js": 88,
+	"./it.js": 87,
+	"./ja": 89,
+	"./ja.js": 89,
+	"./jv": 90,
+	"./jv.js": 90,
+	"./ka": 91,
+	"./ka.js": 91,
+	"./kk": 92,
+	"./kk.js": 92,
+	"./km": 93,
+	"./km.js": 93,
+	"./kn": 94,
+	"./kn.js": 94,
+	"./ko": 95,
+	"./ko.js": 95,
+	"./ku": 96,
+	"./ku.js": 96,
+	"./ky": 97,
+	"./ky.js": 97,
+	"./lb": 98,
+	"./lb.js": 98,
+	"./lo": 99,
+	"./lo.js": 99,
+	"./lt": 100,
+	"./lt.js": 100,
+	"./lv": 101,
+	"./lv.js": 101,
+	"./me": 102,
+	"./me.js": 102,
+	"./mi": 103,
+	"./mi.js": 103,
+	"./mk": 104,
+	"./mk.js": 104,
+	"./ml": 105,
+	"./ml.js": 105,
+	"./mn": 106,
+	"./mn.js": 106,
+	"./mr": 107,
+	"./mr.js": 107,
+	"./ms": 108,
+	"./ms-my": 109,
+	"./ms-my.js": 109,
+	"./ms.js": 108,
+	"./mt": 110,
+	"./mt.js": 110,
+	"./my": 111,
+	"./my.js": 111,
+	"./nb": 112,
+	"./nb.js": 112,
+	"./ne": 113,
+	"./ne.js": 113,
+	"./nl": 114,
+	"./nl-be": 115,
+	"./nl-be.js": 115,
+	"./nl.js": 114,
+	"./nn": 116,
+	"./nn.js": 116,
+	"./pa-in": 117,
+	"./pa-in.js": 117,
+	"./pl": 118,
+	"./pl.js": 118,
+	"./pt": 119,
+	"./pt-br": 120,
+	"./pt-br.js": 120,
+	"./pt.js": 119,
+	"./ro": 121,
+	"./ro.js": 121,
+	"./ru": 122,
+	"./ru.js": 122,
+	"./sd": 123,
+	"./sd.js": 123,
+	"./se": 124,
+	"./se.js": 124,
+	"./si": 125,
+	"./si.js": 125,
+	"./sk": 126,
+	"./sk.js": 126,
+	"./sl": 127,
+	"./sl.js": 127,
+	"./sq": 128,
+	"./sq.js": 128,
+	"./sr": 129,
+	"./sr-cyrl": 130,
+	"./sr-cyrl.js": 130,
+	"./sr.js": 129,
+	"./ss": 131,
+	"./ss.js": 131,
+	"./sv": 132,
+	"./sv.js": 132,
+	"./sw": 133,
+	"./sw.js": 133,
+	"./ta": 134,
+	"./ta.js": 134,
+	"./te": 135,
+	"./te.js": 135,
+	"./tet": 136,
+	"./tet.js": 136,
+	"./tg": 137,
+	"./tg.js": 137,
+	"./th": 138,
+	"./th.js": 138,
+	"./tl-ph": 139,
+	"./tl-ph.js": 139,
+	"./tlh": 140,
+	"./tlh.js": 140,
+	"./tr": 141,
+	"./tr.js": 141,
+	"./tzl": 142,
+	"./tzl.js": 142,
+	"./tzm": 143,
+	"./tzm-latn": 144,
+	"./tzm-latn.js": 144,
+	"./tzm.js": 143,
+	"./ug-cn": 145,
+	"./ug-cn.js": 145,
+	"./uk": 146,
+	"./uk.js": 146,
+	"./ur": 147,
+	"./ur.js": 147,
+	"./uz": 148,
+	"./uz-latn": 149,
+	"./uz-latn.js": 149,
+	"./uz.js": 148,
+	"./vi": 150,
+	"./vi.js": 150,
+	"./x-pseudo": 151,
+	"./x-pseudo.js": 151,
+	"./yo": 152,
+	"./yo.js": 152,
+	"./zh-cn": 153,
+	"./zh-cn.js": 153,
+	"./zh-hk": 154,
+	"./zh-hk.js": 154,
+	"./zh-tw": 155,
+	"./zh-tw.js": 155
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) { // check for number or string
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return id;
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 195;
+
+/***/ }),
+
+/***/ 216:
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ 219:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./node_modules/mobx-react/index.module.js
+var index_module = __webpack_require__(6);
+
+// EXTERNAL MODULE: ./node_modules/mobx/lib/mobx.module.js
+var mobx_module = __webpack_require__(2);
+
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__(3);
+var react_default = /*#__PURE__*/__webpack_require__.n(react);
+
+// EXTERNAL MODULE: ./node_modules/axios/index.js
+var axios = __webpack_require__(5);
+var axios_default = /*#__PURE__*/__webpack_require__.n(axios);
+
+// CONCATENATED MODULE: ./auth-service/auth-service.js
+var _class, _descriptor, _class3, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _class5;
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+
+
+
+
+ //export store
+
+var auth_service_authDomainStore = (_class =
+/*#__PURE__*/
+function () {
+  function authDomainStore(rootStore, offlineStorage, SERVER) {
+    _classCallCheck(this, authDomainStore);
+
+    this.token = void 0;
+
+    _initializerDefineProperty(this, "user", _descriptor, this);
+
+    this.isLoggedIn = false;
+    this.offlineStorage = void 0;
+    this.rootStore = void 0;
+    this.SERVER = void 0;
+    //set the local storage mechanism
+    //could be async storage
+    this.rootStore = rootStore;
+
+    if (offlineStorage) {
+      this.offlineStorage = offlineStorage;
+    }
+
+    this.SERVER = SERVER;
+  }
+
+  _createClass(authDomainStore, [{
+    key: "logout",
+    value: function logout() {
+      return this.clearToken();
+    }
+  }, {
+    key: "forgotPassword",
+    value: function forgotPassword(_ref) {
+      var _this = this;
+
+      var email = _ref.email;
+      return new Promise(function (resolve, reject) {
+        return axios_default.a.post("".concat(_this.SERVER.host, ":").concat(_this.SERVER.port, "/auth/forgot-password"), {
+          email: email
+        }).then(function (res) {
+          return resolve(res.data);
+        }).catch(function (err) {
+          return reject(err && err.response && err.response.data);
+        });
+      });
+    }
+  }, {
+    key: "changePassword",
+    value: function changePassword(_ref2) {
+      var _this2 = this;
+
+      var token = _ref2.token,
+          newPassword = _ref2.newPassword,
+          email = _ref2.email;
+      return new Promise(function (resolve, reject) {
+        return axios_default.a.post("".concat(_this2.SERVER.host, ":").concat(_this2.SERVER.port, "/auth/change-password"), {
+          email: email,
+          token: token,
+          newPassword: newPassword
+        }).then(function (res) {
+          return resolve(res.data);
+        }).catch(function (err) {
+          return reject(err.response.data);
+        });
+      });
+    }
+  }, {
+    key: "resendConfirmationEmail",
+    value: function resendConfirmationEmail(_ref3) {
+      var _this3 = this;
+
+      var email = _ref3.email;
+      return new Promise(function (resolve, reject) {
+        return axios_default.a.post("".concat(_this3.SERVER.host, ":").concat(_this3.SERVER.port, "/auth/resend-email-confirmation"), {
+          email: email
+        }).then(function (res) {
+          return resolve(res.data);
+        }).catch(function (err) {
+          return reject(err && err.response && err.response.data);
+        });
+      });
+    }
+  }, {
+    key: "login",
+    value: function login(values) {
+      var _this4 = this;
+
+      return new Promise(function (resolve, reject) {
+        return axios_default.a.post("".concat(_this4.SERVER.host, ":").concat(_this4.SERVER.port, "/auth"), values).then(function (res) {
+          _this4.user = res.data;
+          _this4.isLoggedIn = true;
+
+          _this4.storeToken(_this4.user.jwtToken, "jwtToken");
+
+          return resolve(res.data);
+        }).catch(function (err) {
+          return reject(err && err.response && err.response.data);
+        });
+      });
+    }
+  }, {
+    key: "register",
+    value: function register(values) {
+      var _this5 = this;
+
+      return new Promise(function (resolve, reject) {
+        return axios_default.a.post("".concat(_this5.SERVER.host, ":").concat(_this5.SERVER.port, "/auth/register"), values).then(function (res) {
+          _this5.user = res.data;
+          _this5.isLoggedIn = true;
+
+          _this5.storeToken(_this5.user.jwtToken);
+
+          return resolve(res.data);
+        }).catch(function (err) {
+          _this5.isLoggedIn = false;
+          return reject(err && err.response && err.response.data);
+        });
+      });
+    }
+  }, {
+    key: "loginWithProvider",
+    value: function loginWithProvider(providerName) {
+      window.location.replace("".concat(this.SERVER.host, ":").concat(this.SERVER.port, "/").concat(providerName, "/auth"));
+    }
+  }, {
+    key: "registerWithProvider",
+    value: function registerWithProvider(providerName) {
+      //information to register
+      window.location.replace("".concat(this.SERVER.host, ":").concat(this.SERVER.port, "/").concat(providerName, "/auth"));
+    }
+  }, {
+    key: "storeToken",
+    value: function storeToken(token, key) {
+      if (token) {
+        return this.offlineStorage.setItem(key, token);
+      }
+    }
+  }, {
+    key: "clearToken",
+    value: function clearToken() {
+      return this.offlineStorage.removeItem("jwtToken");
+    }
+  }, {
+    key: "isAuthenticated",
+    value: function isAuthenticated() {
+      var _this6 = this;
+
+      return new Promise(function (resolve, reject) {
+        return _this6.offlineStorage.getItem("jwtToken").then(function (token) {
+          return axios_default.a.post("".concat(_this6.SERVER.host, ":").concat(_this6.SERVER.port, "/jwt"), {
+            token: token
+          }).then(function (msg) {
+            return resolve(msg);
+          }).catch(function (err) {
+            return reject(err);
+          });
+        });
+      });
+    }
+  }]);
+
+  return authDomainStore;
+}(), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "user", [mobx_module["u" /* observable */]], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: null
+})), _class);
+var auth_service_authUiStore = (_class3 = function authUiStore(rootStore) {
+  _classCallCheck(this, authUiStore);
+
+  _initializerDefineProperty(this, "username", _descriptor2, this);
+
+  _initializerDefineProperty(this, "password", _descriptor3, this);
+
+  _initializerDefineProperty(this, "email", _descriptor4, this);
+
+  _initializerDefineProperty(this, "firstname", _descriptor5, this);
+
+  _initializerDefineProperty(this, "lastname", _descriptor6, this);
+
+  this.rootStore = rootStore;
+}, (_descriptor2 = _applyDecoratedDescriptor(_class3.prototype, "username", [mobx_module["u" /* observable */]], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: null
+}), _descriptor3 = _applyDecoratedDescriptor(_class3.prototype, "password", [mobx_module["u" /* observable */]], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: null
+}), _descriptor4 = _applyDecoratedDescriptor(_class3.prototype, "email", [mobx_module["u" /* observable */]], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: null
+}), _descriptor5 = _applyDecoratedDescriptor(_class3.prototype, "firstname", [mobx_module["u" /* observable */]], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: null
+}), _descriptor6 = _applyDecoratedDescriptor(_class3.prototype, "lastname", [mobx_module["u" /* observable */]], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: null
+})), _class3); //somehow we have to load stuff from an api
+
+var api = {
+  googleAuth: "",
+  facebookAuth: "",
+  twitterAuth: ""
+}; //determine the theme here and load the right login information?
+
+var LoginWithAuth = Object(index_module["a" /* observer */])(function (_ref4) {
+  var children = _ref4.children,
+      authUiStore = _ref4.authUiStore,
+      authDomainStore = _ref4.authDomainStore;
+  var decoratedLogin = react_default.a.Children.map(children, function (child) {
+    return react_default.a.cloneElement(child, _objectSpread({
+      onChange: function onChange(field, value) {
+        authUiStore[field] = value;
+      },
+      onSubmit: function onSubmit(values) {
+        return authDomainStore.login(values);
+      },
+      onProviderAuth: function onProviderAuth(providerName) {
+        authDomainStore.loginWithProvider(providerName);
+      }
+    }, child.props));
+  });
+  return react_default.a.createElement(react_default.a.Fragment, null, decoratedLogin);
+});
+var RegisterWithAuth = Object(index_module["a" /* observer */])(function (_ref5) {
+  var children = _ref5.children,
+      authUiStore = _ref5.authUiStore,
+      authDomainStore = _ref5.authDomainStore;
+  var decoratedRegister = react_default.a.Children.map(children, function (child) {
+    return react_default.a.cloneElement(children, _objectSpread({
+      onChange: function onChange(field, value) {
+        authUiStore[field] = value;
+      },
+      onSubmit: function onSubmit(values) {
+        return authDomainStore.register(values);
+      },
+      onProviderAuth: function onProviderAuth(providerName) {
+        authDomainStore.loginWithProvider(providerName);
+      }
+    }, child.props));
+  });
+  return react_default.a.createElement(react_default.a.Fragment, null, decoratedRegister);
+});
+
+var injectProps = function injectProps(authDomainStore, props, child) {
+  var injected = _objectSpread({
+    login: function login(values) {
+      return authDomainStore.login(values);
+    },
+    register: function register(values) {
+      return authDomainStore.register(values);
+    },
+    forgotPassword: function forgotPassword(email) {
+      return authDomainStore.forgotPassword(email);
+    },
+    changePassword: function changePassword(_ref6) {
+      var newPassword = _ref6.newPassword,
+          email = _ref6.email,
+          token = _ref6.token;
+      return authDomainStore.changePassword({
+        newPassword: newPassword,
+        email: email,
+        token: token
+      });
+    },
+    loginWithProvider: function loginWithProvider(providerName) {
+      return authDomainStore.loginWithProvider(providerName);
+    },
+    registerWithProvider: function (_registerWithProvider) {
+      function registerWithProvider(_x) {
+        return _registerWithProvider.apply(this, arguments);
+      }
+
+      registerWithProvider.toString = function () {
+        return _registerWithProvider.toString();
+      };
+
+      return registerWithProvider;
+    }(function (providerName) {
+      return authDomainStore.registerWithProvider(registerWithProvider);
+    }),
+    resendConfirmationEmail: function resendConfirmationEmail(email) {
+      return authDomainStore.resendConfirmationEmail(email);
+    }
+  }, props, child.props);
+
+  return injected;
+}; //determine the theme here and load the right login information?
+
+
+var auth_service_Auth = Object(index_module["a" /* observer */])(_class5 =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(Auth, _React$Component);
+
+  function Auth(props) {
+    _classCallCheck(this, Auth);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Auth).call(this, props));
+  }
+
+  _createClass(Auth, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var authDomainStore = this.props.authDomainStore;
+      authDomainStore.isAuthenticated();
+    }
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {}
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {}
+  }, {
+    key: "render",
+    value: function render() {
+      var _this7 = this;
+
+      var _this$props = this.props,
+          children = _this$props.children,
+          authDomainStore = _this$props.authDomainStore;
+      var childrenWithProps = react_default.a.Children.map(children, function (child) {
+        var injectedProps = injectProps(authDomainStore, _this7.props, child);
+        return react_default.a.cloneElement(child, injectedProps);
+      });
+      return react_default.a.createElement(react_default.a.Fragment, null, childrenWithProps);
+    }
+  }]);
+
+  return Auth;
+}(react_default.a.Component)) || _class5;
+function withAuth(WrappedComponent) {
+  var _class6;
+
+  var WithAuth = Object(index_module["a" /* observer */])(_class6 =
+  /*#__PURE__*/
+  function (_React$Component2) {
+    _inherits(WithAuth, _React$Component2);
+
+    function WithAuth(props) {
+      _classCallCheck(this, WithAuth);
+
+      return _possibleConstructorReturn(this, _getPrototypeOf(WithAuth).call(this, props));
+    }
+
+    _createClass(WithAuth, [{
+      key: "componentDidMount",
+      value: function componentDidMount() {
+        var authDomainStore = this.props.authDomainStore;
+        authDomainStore.isAuthenticated();
+      }
+    }, {
+      key: "componentWillReceiveProps",
+      value: function componentWillReceiveProps() {}
+    }, {
+      key: "render",
+      value: function render() {
+        var authDomainStore = this.props.authDomainStore;
+        var injectedProps = injectProps(authDomainStore, this.props, this);
+        return react_default.a.createElement(WrappedComponent, injectedProps);
+      }
+    }]);
+
+    return WithAuth;
+  }(react_default.a.Component)) || _class6;
+
+  return WithAuth;
+}
+// CONCATENATED MODULE: ./crud-service/crud-service.js
+var crud_service_class, crud_service_class3;
+
+function crud_service_typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { crud_service_typeof = function _typeof(obj) { return typeof obj; }; } else { crud_service_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return crud_service_typeof(obj); }
+
+function crud_service_possibleConstructorReturn(self, call) { if (call && (crud_service_typeof(call) === "object" || typeof call === "function")) { return call; } return crud_service_assertThisInitialized(self); }
+
+function crud_service_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function crud_service_getPrototypeOf(o) { crud_service_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return crud_service_getPrototypeOf(o); }
+
+function crud_service_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) crud_service_setPrototypeOf(subClass, superClass); }
+
+function crud_service_setPrototypeOf(o, p) { crud_service_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return crud_service_setPrototypeOf(o, p); }
+
+function crud_service_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { crud_service_defineProperty(target, key, source[key]); }); } return target; }
+
+function crud_service_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function crud_service_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function crud_service_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function crud_service_createClass(Constructor, protoProps, staticProps) { if (protoProps) crud_service_defineProperties(Constructor.prototype, protoProps); if (staticProps) crud_service_defineProperties(Constructor, staticProps); return Constructor; }
+
+function crud_service_applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+
+
+
+ //export store
+
+var crud_service_crudDomainStore = (crud_service_class =
+/*#__PURE__*/
+function () {
+  function crudDomainStore(rootStore, offlineStorage, SERVER, notificationDomainStore) {
+    crud_service_classCallCheck(this, crudDomainStore);
+
+    this.modelName = void 0;
+    this.mapStore = mobx_module["u" /* observable */].map();
+    this.rootStore = void 0;
+    this.SERVER = void 0;
+    this.offlineStorage = void 0;
+    this.notificationDomainStore = void 0;
+    this.rootStore = rootStore;
+    this.notificationDomainStore = notificationDomainStore;
+
+    if (offlineStorage) {
+      this.offlineStorage = offlineStorage;
+    }
+
+    this.SERVER = SERVER;
+  }
+
+  crud_service_createClass(crudDomainStore, [{
+    key: "forceUpdate",
+    value: function forceUpdate(modelName) {
+      var current = this.mapStore.get(modelName);
+      this.mapStore.set(modelName, []);
+      this.mapStore.set(modelName, current);
+    }
+  }, {
+    key: "getModel",
+    value: function getModel(query, modelName, refresh, transform) {
+      var _this = this;
+
+      //cached data, you don't have to hit up he end point
+      if (this.mapStore.get(modelName) && !refresh) {
+        return;
+      }
+
+      return this.offlineStorage.getItem("jwtToken").then(function (token) {
+        return axios_default.a.get("".concat(_this.SERVER.host, ":").concat(_this.SERVER.port, "/").concat(modelName), {
+          params: {
+            token: token,
+            query: query
+          }
+        }).then(function (res) {
+          Object(mobx_module["x" /* runInAction */])(function () {
+            if (transform) {
+              var transformedModel = transform(res.data);
+              return _this.mapStore.set(modelName, transformedModel);
+            }
+
+            _this.mapStore.set(modelName, res.data);
+          });
+        }).catch(function (err) {
+          _this.setError(modelName, err);
+        });
+      }).catch(function (err) {
+        return _this.setError(modelName, err);
+      });
+    }
+  }, {
+    key: "createModel",
+    value: function createModel(modelName, model) {
+      var _this2 = this;
+
+      return this.offlineStorage.getItem("jwtToken").then(function (token) {
+        return axios_default.a.post("".concat(_this2.SERVER.host, ":").concat(_this2.SERVER.port, "/").concat(modelName, "/create"), {
+          model: model,
+          token: token
+        }).then(function (res) {
+          var current = _this2.mapStore.get(modelName) || [model];
+
+          _this2.mapStore.set(modelName, _toConsumableArray(current).concat([res.data]));
+
+          _this2.setSuccess(modelName, "".concat(modelName, " successfully created!"));
+
+          return res.data;
+        }).catch(function (err) {
+          console.error("Create ".concat(modelName, " failed!"), err);
+          return _this2.setError(modelName, err);
+        });
+      });
+    }
+  }, {
+    key: "updateModel",
+    value: function updateModel(modelName, model, updateValues) {
+      var _this3 = this;
+
+      var extractedModel = Object(mobx_module["A" /* toJS */])(model);
+      console.log("here");
+      Object.keys(updateValues).map(function (key) {
+        model[key] = updateValues[key];
+      });
+      return this.offlineStorage.getItem("jwtToken").then(function (token) {
+        return axios_default.a.put("".concat(_this3.SERVER.host, ":").concat(_this3.SERVER.port, "/").concat(modelName), {
+          model: model,
+          token: token
+        }).then(function (res) {
+          var updatedModel = _this3.mapStore.get(modelName).map(function (cModel) {
+            return cModel._id === model._id ? model : cModel;
+          });
+
+          _this3.mapStore.set(modelName, updatedModel);
+
+          _this3.setSuccess(modelName, "".concat(modelName, " successfully updated!"));
+
+          return res.data;
+        }).catch(function (err) {
+          console.log("err", err);
+          return _this3.setError(modelName, err);
+        });
+      });
+    }
+  }, {
+    key: "deleteModel",
+    value: function deleteModel(modelName, model) {
+      var _this4 = this;
+
+      model.deleted = true;
+      this.forceUpdate(modelName);
+      return this.offlineStorage.getItem("jwtToken").then(function (token) {
+        return axios_default.a.delete("".concat(_this4.SERVER.host, ":").concat(_this4.SERVER.port, "/").concat(modelName, "/").concat(model._id), {
+          params: {
+            token: token
+          }
+        }).then(function (res) {
+          _this4.setSuccess(modelName, "".concat(modelName, " successfully deleted!"));
+
+          return res.data;
+        }).catch(function (err) {
+          return _this4.setError(modelName, err);
+        });
+      });
+    }
+  }, {
+    key: "searchModel",
+    value: function searchModel(modelName, query) {
+      var _this5 = this;
+
+      return this.offlineStorage.getItem("jwtToken").then(function (token) {
+        return axios_default.a.post("".concat(_this5.SERVER.host, ":").concat(_this5.SERVER.port, "/").concat(modelName, "/search"), {
+          query: query,
+          token: token
+        }).then(function (res) {
+          return res.data;
+        }).catch(function (err) {
+          return _this5.setError(modelName, err);
+        });
+      });
+    }
+  }, {
+    key: "setError",
+    value: function setError(modelName, err) {
+      if (this.notificationDomainStore) {
+        this.notificationDomainStore.saveNotification(modelName, {
+          message: err && err.response && err.response.data.message,
+          type: "error"
+        });
+      }
+    }
+  }, {
+    key: "setSuccess",
+    value: function setSuccess(modelName, successMessage) {
+      if (this.notificationDomainStore) {
+        this.notificationDomainStore.saveNotification(modelName, {
+          message: successMessage,
+          type: "success"
+        });
+      }
+    }
+  }, {
+    key: "getAppSettings",
+    value: function getAppSettings() {
+      var _this6 = this;
+
+      return this.offlineStorage.getItem("jwtToken").then(function (token) {
+        return axios_default.a.get("".concat(_this6.SERVER.host, ":").concat(_this6.SERVER.port, "/settings"), {
+          params: {
+            token: token
+          }
+        }).then(function (res) {
+          Object(mobx_module["x" /* runInAction */])(function () {
+            _this6.mapStore.set("settings", res.data);
+          });
+          return res.data[0];
+        }).catch(function (err) {
+          _this6.setError("settings", err);
+        });
+      });
+    }
+  }]);
+
+  return crudDomainStore;
+}(), (crud_service_applyDecoratedDescriptor(crud_service_class.prototype, "forceUpdate", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(crud_service_class.prototype, "forceUpdate"), crud_service_class.prototype), crud_service_applyDecoratedDescriptor(crud_service_class.prototype, "getModel", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(crud_service_class.prototype, "getModel"), crud_service_class.prototype), crud_service_applyDecoratedDescriptor(crud_service_class.prototype, "createModel", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(crud_service_class.prototype, "createModel"), crud_service_class.prototype), crud_service_applyDecoratedDescriptor(crud_service_class.prototype, "updateModel", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(crud_service_class.prototype, "updateModel"), crud_service_class.prototype), crud_service_applyDecoratedDescriptor(crud_service_class.prototype, "deleteModel", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(crud_service_class.prototype, "deleteModel"), crud_service_class.prototype), crud_service_applyDecoratedDescriptor(crud_service_class.prototype, "searchModel", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(crud_service_class.prototype, "searchModel"), crud_service_class.prototype), crud_service_applyDecoratedDescriptor(crud_service_class.prototype, "setError", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(crud_service_class.prototype, "setError"), crud_service_class.prototype), crud_service_applyDecoratedDescriptor(crud_service_class.prototype, "setSuccess", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(crud_service_class.prototype, "setSuccess"), crud_service_class.prototype), crud_service_applyDecoratedDescriptor(crud_service_class.prototype, "getAppSettings", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(crud_service_class.prototype, "getAppSettings"), crud_service_class.prototype)), crud_service_class);
+
+var crud_service_injectProps = function injectProps(crudDomainStore, modelName, props, child, query, transform) {
+  var injected = crud_service_objectSpread({
+    getModel: function getModel(query) {
+      return crudDomainStore.getModel(query, modelName, true, transform);
+    },
+    createModel: function createModel(model) {
+      return crudDomainStore.createModel(modelName, model);
+    },
+    updateModel: function updateModel(model, updateValues) {
+      return crudDomainStore.updateModel(modelName, model, updateValues);
+    },
+    deleteModel: function deleteModel(model) {
+      return crudDomainStore.deleteModel(modelName, model);
+    },
+    query: query
+  }, props, child.props);
+
+  injected[modelName] = transform ? transform(crudDomainStore.mapStore.get(modelName)) : crudDomainStore.mapStore.get(modelName);
+
+  injected["".concat(modelName, "_getModel")] = function (query) {
+    crudDomainStore.getModel(query, modelName, true, transform);
+  };
+
+  injected["".concat(modelName, "_createModel")] = function (model) {
+    return crudDomainStore.createModel(modelName, model);
+  };
+
+  injected["".concat(modelName, "_updateModel")] = function (model, updateValues) {
+    return crudDomainStore.updateModel(modelName, model, updateValues);
+  };
+
+  injected["".concat(modelName, "_deleteModel")] = function (model) {
+    return crudDomainStore.deleteModel(modelName, model);
+  };
+
+  injected["".concat(modelName, "_searchModel")] = function (query) {
+    return crudDomainStore.searchModel(modelName, query);
+  };
+
+  injected["searchModels"] = function (modelNames, query) {
+    var promises = modelNames.map(function (modelName) {
+      return crudDomainStore.searchModel(modelName, query).then(function (res) {
+        return {
+          modelName: modelName,
+          res: res
+        };
+      });
+    });
+    return promises;
+  };
+
+  injected["".concat(modelName, "_query")] = query;
+  return injected;
+}; //determine the theme here and load the right login information?
+
+
+var crud_service_Crud = Object(index_module["a" /* observer */])(crud_service_class3 =
+/*#__PURE__*/
+function (_React$Component) {
+  crud_service_inherits(Crud, _React$Component);
+
+  function Crud(props) {
+    crud_service_classCallCheck(this, Crud);
+
+    return crud_service_possibleConstructorReturn(this, crud_service_getPrototypeOf(Crud).call(this, props));
+  }
+
+  crud_service_createClass(Crud, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {}
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {}
+  }, {
+    key: "render",
+    value: function render() {
+      var _this7 = this;
+
+      var _this$props = this.props,
+          modelName = _this$props.modelName,
+          children = _this$props.children,
+          crudDomainStore = _this$props.crudDomainStore,
+          skipLoadOnInit = _this$props.skipLoadOnInit,
+          query = _this$props.query,
+          transform = _this$props.transform;
+
+      if (modelName && !skipLoadOnInit) {
+        crudDomainStore.getModel(query, modelName, false);
+      }
+
+      var childrenWithProps = react_default.a.Children.map(children, function (child) {
+        var injectedProps = crud_service_injectProps(crudDomainStore, modelName, _this7.props, child, query, transform);
+        return react_default.a.cloneElement(child, injectedProps);
+      });
+      return react_default.a.createElement(react_default.a.Fragment, null, childrenWithProps);
+    }
+  }]);
+
+  return Crud;
+}(react_default.a.Component)) || crud_service_class3;
+function withCrud(WrappedComponent) {
+  var _class4;
+
+  var WithCrud = Object(index_module["a" /* observer */])(_class4 =
+  /*#__PURE__*/
+  function (_React$Component2) {
+    crud_service_inherits(WithCrud, _React$Component2);
+
+    function WithCrud(props) {
+      crud_service_classCallCheck(this, WithCrud);
+
+      return crud_service_possibleConstructorReturn(this, crud_service_getPrototypeOf(WithCrud).call(this, props));
+    }
+
+    crud_service_createClass(WithCrud, [{
+      key: "componentDidMount",
+      value: function componentDidMount() {
+        var _this$props2 = this.props,
+            modelName = _this$props2.modelName,
+            crudDomainStore = _this$props2.crudDomainStore,
+            query = _this$props2.query;
+        crudDomainStore.getModel(query, modelName, false);
+      }
+    }, {
+      key: "componentWillReceiveProps",
+      value: function componentWillReceiveProps() {}
+    }, {
+      key: "render",
+      value: function render() {
+        var _this$props3 = this.props,
+            modelName = _this$props3.modelName,
+            crudDomainStore = _this$props3.crudDomainStore,
+            query = _this$props3.query,
+            transform = _this$props3.transform;
+        var injectedProps = crud_service_injectProps(crudDomainStore, modelName, this.props, this, query, transform);
+        return react_default.a.createElement(WrappedComponent, injectedProps);
+      }
+    }]);
+
+    return WithCrud;
+  }(react_default.a.Component)) || _class4;
+
+  return WithCrud;
+}
+// EXTERNAL MODULE: ./node_modules/mobx-state-tree/dist/mobx-state-tree.module.js
+var mobx_state_tree_module = __webpack_require__(8);
+
+// CONCATENATED MODULE: ./crud-service/crud-service-mst.js
+function crud_service_mst_typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { crud_service_mst_typeof = function _typeof(obj) { return typeof obj; }; } else { crud_service_mst_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return crud_service_mst_typeof(obj); }
+
+function crud_service_mst_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function crud_service_mst_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function crud_service_mst_createClass(Constructor, protoProps, staticProps) { if (protoProps) crud_service_mst_defineProperties(Constructor.prototype, protoProps); if (staticProps) crud_service_mst_defineProperties(Constructor, staticProps); return Constructor; }
+
+function crud_service_mst_possibleConstructorReturn(self, call) { if (call && (crud_service_mst_typeof(call) === "object" || typeof call === "function")) { return call; } return crud_service_mst_assertThisInitialized(self); }
+
+function crud_service_mst_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function crud_service_mst_getPrototypeOf(o) { crud_service_mst_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return crud_service_mst_getPrototypeOf(o); }
+
+function crud_service_mst_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) crud_service_mst_setPrototypeOf(subClass, superClass); }
+
+function crud_service_mst_setPrototypeOf(o, p) { crud_service_mst_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return crud_service_mst_setPrototypeOf(o, p); }
+
+function crud_service_mst_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { crud_service_mst_defineProperty(target, key, source[key]); }); } return target; }
+
+function crud_service_mst_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function crud_service_mst_toConsumableArray(arr) { return crud_service_mst_arrayWithoutHoles(arr) || crud_service_mst_iterableToArray(arr) || crud_service_mst_nonIterableSpread(); }
+
+function crud_service_mst_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function crud_service_mst_iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function crud_service_mst_arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+
+
+
+
+var Filter = mobx_state_tree_module["a" /* types */].model("Filter", {
+  name: mobx_state_tree_module["a" /* types */].string,
+  value: mobx_state_tree_module["a" /* types */].string
+}); //export store
+
+var crud_service_mst_getCrudDomainStore = function getCrudDomainStore(modelName, offlineStorage, SERVER, notificationDomainStore, transform) {
+  return mobx_state_tree_module["a" /* types */].model({
+    id: mobx_state_tree_module["a" /* types */].identifier,
+    state: mobx_state_tree_module["a" /* types */].frozen(),
+    status: mobx_state_tree_module["a" /* types */].string,
+    loading: mobx_state_tree_module["a" /* types */].optional(mobx_state_tree_module["a" /* types */].boolean, true),
+    filters: mobx_state_tree_module["a" /* types */].array(Filter)
+  }).actions(function (self) {
+    return {
+      fetchModel: function fetchModel() {
+        self.loading = true;
+        return offlineStorage.getItem("jwtToken").then(function (token) {
+          return axios_default.a.get("".concat(SERVER.host, ":").concat(SERVER.port, "/").concat(modelName), {
+            params: {
+              token: token
+            }
+          }).then(function (res) {
+            transform ? self.setSuccess(transform(res.data)) : self.setSuccess(res.data);
+          }).catch(function (err) {
+            self.setError(err);
+          });
+        }).catch(function (err) {
+          return self.setError(err);
+        });
+      },
+      createModel: function createModel(model) {
+        self.loading = true;
+        return offlineStorage.getItem("jwtToken").then(function (token) {
+          return axios_default.a.post("".concat(SERVER.host, ":").concat(SERVER.port, "/").concat(modelName, "/create"), {
+            model: model,
+            token: token
+          }).then(function (res) {
+            self.setSuccess(crud_service_mst_toConsumableArray(self.state).concat([model]), "".concat(modelName, " successfully created!"));
+            return res.data;
+          }).catch(function (err) {
+            return self.setError(err);
+          });
+        });
+      },
+      updateModel: function updateModel(model, updateValues) {
+        self.loading = true;
+        Object.keys(updateValues).map(function (key) {
+          model[key] = updateValues[key];
+        });
+        return offlineStorage.getItem("jwtToken").then(function (token) {
+          return axios_default.a.put("".concat(SERVER.host, ":").concat(SERVER.port, "/").concat(modelName), {
+            model: model,
+            token: token
+          }).then(function (res) {
+            self.setSuccess(crud_service_mst_toConsumableArray(self.state.filter(function (m) {
+              return model._id !== m._id;
+            })).concat([model]), "".concat(modelName, " successfully updated!"));
+          }).catch(function (err) {
+            return self.setError(err);
+          });
+        });
+      },
+      deleteModel: function deleteModel(model) {
+        self.loading = true;
+        return offlineStorage.getItem("jwtToken").then(function (token) {
+          return axios_default.a.delete("".concat(SERVER.host, ":").concat(SERVER.port, "/").concat(modelName, "/").concat(model._id), {
+            params: {
+              token: token
+            }
+          }).then(function (res) {
+            self.setSuccess(self.state.filter(function (m) {
+              return m !== model;
+            }), "".concat(modelName, " successfully deleted!"));
+          }).catch(function (err) {
+            return self.setError(err);
+          });
+        });
+      },
+      searchModel: function searchModel(query) {
+        self.loading = true;
+        return offlineStorage.getItem("jwtToken").then(function (token) {
+          return axios_default.a.post("".concat(SERVER.host, ":").concat(SERVER.port, "/").concat(modelName, "/search"), {
+            query: query,
+            token: token
+          }).then(function (res) {
+            return res.data;
+          }).catch(function (err) {
+            console.log("err", err);
+            return self.setError(err);
+          });
+        });
+      },
+      searchModels: function searchModels(query, modelName) {
+        self.loading = true;
+        return offlineStorage.getItem("jwtToken").then(function (token) {
+          return axios_default.a.post("".concat(SERVER.host, ":").concat(SERVER.port, "/").concat(modelName, "/search"), {
+            query: query,
+            token: token
+          }).then(function (res) {
+            return res.data;
+          }).catch(function (err) {
+            console.log("err", err);
+            return self.setError(err);
+          });
+        });
+      },
+      setFilter: function setFilter(filter) {
+        //add if not already defined
+        var foundFilter = self.filters.find(function (f) {
+          return f.name === filter.name;
+        });
+
+        if (!foundFilter) {
+          self.filters.push(filter);
+        }
+      },
+      removeFilter: function removeFilter(filter) {
+        self.filters = self.filters.filter(function (f) {
+          return f.name !== filter.name;
+        });
+      },
+      setError: function setError(err) {
+        self.loading = false;
+
+        if (notificationDomainStore) {
+          notificationDomainStore.saveNotification(modelName, {
+            message: !err.response ? err : err && err.response && err.response.data.message,
+            type: "error"
+          });
+        }
+
+        self.status = "error";
+      },
+      setSuccess: function setSuccess(data, successMessage) {
+        self.loading = false;
+
+        if (notificationDomainStore && successMessage) {
+          notificationDomainStore.saveNotification(modelName, {
+            message: successMessage,
+            type: "success"
+          });
+        }
+
+        if (data) {
+          self.state = data;
+        }
+
+        self.status = "success";
+      }
+    };
+  }).views(function (self) {
+    return {
+      getModel: function getModel() {
+        return self.state;
+      },
+      isLoading: function isLoading() {
+        return self.loading;
+      }
+    };
+  });
+};
+
+var crud_service_mst_injectProps = function injectProps(crudDomainStore, modelName, props, child, transform) {
+  var injected = crud_service_mst_objectSpread({}, props, child.props);
+
+  injected[modelName] = transform ? transform(crudDomainStore.state) : crudDomainStore.state;
+
+  injected["".concat(modelName, "_getModel")] = function () {
+    crudDomainStore.getModel(transform);
+  };
+
+  injected["".concat(modelName, "_createModel")] = function (model) {
+    return crudDomainStore.createModel(model);
+  };
+
+  injected["".concat(modelName, "_updateModel")] = function (model, updateValues) {
+    return crudDomainStore.updateModel(model, updateValues);
+  };
+
+  injected["".concat(modelName, "_deleteModel")] = function (model) {
+    return crudDomainStore.deleteModel(model);
+  };
+
+  injected["".concat(modelName, "_searchModel")] = function (query) {
+    return crudDomainStore.searchModel(query);
+  };
+
+  injected["searchModels"] = function (query, modelNames) {
+    var promises = modelNames.map(function (mName) {
+      return crudDomainStore.searchModels(query, mName).then(function (res) {
+        return {
+          res: res
+        };
+      });
+    });
+    return promises;
+  };
+
+  injected["".concat(modelName, "_set_filter")] = function (filter) {
+    return crudDomainStore.setFilter(filter);
+  };
+
+  injected["".concat(modelName, "_remove_filter")] = function (filter) {
+    return crudDomainStore.removeFilter(filter);
+  };
+
+  injected["".concat(modelName, "_loading")] = crudDomainStore.isLoading();
+  return injected;
+}; //determine the theme here and load the right login information?
+
+
+var crud_service_mst_CrudContainer =
+/*#__PURE__*/
+function (_React$Component) {
+  crud_service_mst_inherits(CrudContainer, _React$Component);
+
+  function CrudContainer(props) {
+    var _this;
+
+    crud_service_mst_classCallCheck(this, CrudContainer);
+
+    _this = crud_service_mst_possibleConstructorReturn(this, crud_service_mst_getPrototypeOf(CrudContainer).call(this, props));
+    _this.stores = {};
+    return _this;
+  }
+
+  crud_service_mst_createClass(CrudContainer, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {}
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {}
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var _this$props = this.props,
+          modelName = _this$props.modelName,
+          children = _this$props.children,
+          skipLoadOnInit = _this$props.skipLoadOnInit,
+          transform = _this$props.transform,
+          offlineStorage = _this$props.offlineStorage,
+          SERVER = _this$props.SERVER,
+          notificationDomainStore = _this$props.notificationDomainStore;
+
+      if (modelName && !this.stores[modelName] && !skipLoadOnInit) {
+        var crudDomainStore = crud_service_mst_getCrudDomainStore(modelName, offlineStorage, SERVER, notificationDomainStore, transform).create({
+          state: [],
+          id: "1",
+          status: "initial"
+        });
+        crudDomainStore.fetchModel();
+        this.stores[modelName] = crudDomainStore;
+      }
+
+      var childrenWithProps = react_default.a.Children.map(children, function (child) {
+        var injectedProps = crud_service_mst_injectProps(_this2.stores[modelName], modelName, _this2.props, child, transform);
+        return react_default.a.cloneElement(child, crud_service_mst_objectSpread({}, injectedProps));
+      });
+      return react_default.a.createElement(react_default.a.Fragment, null, childrenWithProps);
+    }
+  }]);
+
+  return CrudContainer;
+}(react_default.a.Component);
+
+function crud_service_mst_withCrud(WrappedComponent) {
+  var WithCrud =
+  /*#__PURE__*/
+  function (_React$Component2) {
+    crud_service_mst_inherits(WithCrud, _React$Component2);
+
+    function WithCrud(props) {
+      crud_service_mst_classCallCheck(this, WithCrud);
+
+      return crud_service_mst_possibleConstructorReturn(this, crud_service_mst_getPrototypeOf(WithCrud).call(this, props));
+    }
+
+    crud_service_mst_createClass(WithCrud, [{
+      key: "componentDidMount",
+      value: function componentDidMount() {
+        var _this$props2 = this.props,
+            crudDomainStore = _this$props2.crudDomainStore,
+            transform = _this$props2.transform;
+        crudDomainStore.getModel(transform);
+      }
+    }, {
+      key: "componentWillReceiveProps",
+      value: function componentWillReceiveProps() {}
+    }, {
+      key: "render",
+      value: function render() {
+        var _this$props3 = this.props,
+            crudDomainStore = _this$props3.crudDomainStore,
+            transform = _this$props3.transform;
+        var injectedProps = crud_service_mst_injectProps(crudDomainStore, this.props, this, transform);
+        return react_default.a.createElement(WrappedComponent, injectedProps);
+      }
+    }]);
+
+    return WithCrud;
+  }(react_default.a.Component);
+
+  return Object(index_module["a" /* observer */])(WithCrud);
+}
+var crud_service_mst_Crud = Object(index_module["a" /* observer */])(crud_service_mst_CrudContainer);
+// EXTERNAL MODULE: ./node_modules/rrule/dist/esm/src/index.js + 22 modules
+var src = __webpack_require__(4);
+
+// EXTERNAL MODULE: ./node_modules/moment/moment.js
+var moment = __webpack_require__(1);
+var moment_default = /*#__PURE__*/__webpack_require__.n(moment);
+
+// CONCATENATED MODULE: ./event-service/event-service.js
+function event_service_typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { event_service_typeof = function _typeof(obj) { return typeof obj; }; } else { event_service_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return event_service_typeof(obj); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function event_service_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function event_service_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function event_service_createClass(Constructor, protoProps, staticProps) { if (protoProps) event_service_defineProperties(Constructor.prototype, protoProps); if (staticProps) event_service_defineProperties(Constructor, staticProps); return Constructor; }
+
+function event_service_possibleConstructorReturn(self, call) { if (call && (event_service_typeof(call) === "object" || typeof call === "function")) { return call; } return event_service_assertThisInitialized(self); }
+
+function event_service_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function event_service_getPrototypeOf(o) { event_service_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return event_service_getPrototypeOf(o); }
+
+function event_service_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) event_service_setPrototypeOf(subClass, superClass); }
+
+function event_service_setPrototypeOf(o, p) { event_service_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return event_service_setPrototypeOf(o, p); }
+
+function event_service_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { event_service_defineProperty(target, key, source[key]); }); } return target; }
+
+function event_service_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+var event_service_getRecurringInstances = function getRecurringInstances(event) {
+  if (event) {
+    return event.map(function (ev) {
+      if (ev.recurringRule) {
+        if (typeof ev.recurringRule === "string") {
+          var recurringRule = src["a" /* RRule */].fromString(ev.recurringRule);
+          ev.recurringRuleValue = recurringRule.toText();
+          ev.instances = recurringRule.all();
+        }
+      }
+
+      return ev;
+    });
+  }
+
+  return event;
+};
+
+var event_service_saveRecurringRule = function saveRecurringRule(event) {
+  if (event.isRecurring) {
+    var recurringRule = new src["a" /* RRule */]({
+      freq: src["a" /* RRule */][event.recurringRule],
+      dtstart: moment_default()(event.startDateTime).utc().toDate(),
+      until: moment_default()(event.endDateTime).utc().toDate()
+    });
+    event.recurringRule = recurringRule.toString();
+    return event;
+  }
+
+  return event;
+};
+
+var event_service_injectProps = function injectProps(props, child) {
+  var _events_getModel = props.events_getModel,
+      _events_createModel = props.events_createModel,
+      _events_updateModel = props.events_updateModel,
+      _events_deleteModel = props.events_deleteModel;
+
+  var injected = event_service_objectSpread({}, props, child.props, {
+    events_getModel: function events_getModel(query) {
+      return _events_getModel(query, function (data) {
+        event_service_getRecurringInstances(data);
+      });
+    },
+    events_createModel: function events_createModel(event) {
+      _events_createModel(event_service_saveRecurringRule(event));
+    },
+    events_updateModel: function events_updateModel(event, updateValues) {
+      return _events_updateModel(event, updateValues);
+    },
+    events_deleteModel: function events_deleteModel(event) {
+      return _events_deleteModel(event);
+    }
+  });
+
+  return injected;
+};
+
+var event_service_Event =
+/*#__PURE__*/
+function (_React$Component) {
+  event_service_inherits(Event, _React$Component);
+
+  function Event(props) {
+    event_service_classCallCheck(this, Event);
+
+    return event_service_possibleConstructorReturn(this, event_service_getPrototypeOf(Event).call(this, props));
+  }
+
+  event_service_createClass(Event, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps() {}
+  }, {
+    key: "render",
+    value: function render() {
+      var _this = this;
+
+      var children = this.props.children;
+      var childrenWithProps = react_default.a.Children.map(children, function (child) {
+        var injectedProps = event_service_injectProps(_this.props, child);
+        return react_default.a.cloneElement(child, injectedProps);
+      });
+      return react_default.a.createElement(react_default.a.Fragment, null, childrenWithProps);
+    }
+  }]);
+
+  return Event;
+}(react_default.a.Component);
+var event_service_EventWithCrud = function EventWithCrud(_ref) {
+  var crudDomainStore = _ref.crudDomainStore,
+      props = _objectWithoutProperties(_ref, ["crudDomainStore"]);
+
+  return react_default.a.createElement(crud_service_Crud, {
+    crudDomainStore: crudDomainStore,
+    modelName: "events",
+    transform: function transform(data) {
+      console.log("data", data);
+      return event_service_getRecurringInstances(data);
+    }
+  }, react_default.a.createElement(event_service_Event, props));
+};
+// EXTERNAL MODULE: ./node_modules/react-webcam/dist/react-webcam.js
+var react_webcam = __webpack_require__(169);
+var react_webcam_default = /*#__PURE__*/__webpack_require__.n(react_webcam);
+
+// CONCATENATED MODULE: ./camera-service/camera-service.js
+function camera_service_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { camera_service_defineProperty(target, key, source[key]); }); } return target; }
+
+function camera_service_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var camera_service_injectProps = function injectProps(modelName, capture, child) {
+  var injected = camera_service_objectSpread({}, props, child.props);
+
+  injected["".concat(modelName, "_capture")] = capture;
+  return injected;
+}; //determine the theme here and load the right login information?
+
+
+var camera_service_Camera = function Camera(_ref) {
+  var modelName = _ref.modelName,
+      children = _ref.children,
+      width = _ref.width,
+      height = _ref.height,
+      onCapture = _ref.onCapture;
+  var videoConstraints = {
+    width: width,
+    height: height,
+    facingMode: facingMode
+  };
+  var webcamRef = react_default.a.useRef(null);
+  var capture = react_default.a.useCallback(function () {
+    var imageSrc = webcamRef.current.getScreenshot();
+    onCapture(imageSrc);
+  }, [webcamRef]);
+  var childrenWithProps = react_default.a.Children.map(children, function (child) {
+    var injectedProps = camera_service_injectProps(modelName, capture, child);
+    return react_default.a.cloneElement(child, camera_service_objectSpread({}, injectedProps));
+  });
+  return react_default.a.createElement(react_default.a.Fragment, null, react_default.a.createElement(react_webcam_default.a, {
+    audio: false,
+    ref: webcamRef,
+    screenshotFormat: "image/jpeg",
+    width: width,
+    height: height,
+    videoConstraints: videoConstraints
+  }), childrenWithProps);
+};
+
+/* harmony default export */ var camera_service = (camera_service_Camera);
+// EXTERNAL MODULE: ./node_modules/socket.io-client/lib/index.js
+var lib = __webpack_require__(17);
+var lib_default = /*#__PURE__*/__webpack_require__.n(lib);
+
+// CONCATENATED MODULE: ./socket-service/socket-service.js
+var socket_service_class, socket_service_descriptor, socket_service_class3;
+
+function socket_service_typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { socket_service_typeof = function _typeof(obj) { return typeof obj; }; } else { socket_service_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return socket_service_typeof(obj); }
+
+function socket_service_possibleConstructorReturn(self, call) { if (call && (socket_service_typeof(call) === "object" || typeof call === "function")) { return call; } return socket_service_assertThisInitialized(self); }
+
+function socket_service_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function socket_service_getPrototypeOf(o) { socket_service_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return socket_service_getPrototypeOf(o); }
+
+function socket_service_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) socket_service_setPrototypeOf(subClass, superClass); }
+
+function socket_service_setPrototypeOf(o, p) { socket_service_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return socket_service_setPrototypeOf(o, p); }
+
+function socket_service_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { socket_service_defineProperty(target, key, source[key]); }); } return target; }
+
+function socket_service_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function socket_service_initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
+
+function socket_service_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function socket_service_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function socket_service_createClass(Constructor, protoProps, staticProps) { if (protoProps) socket_service_defineProperties(Constructor.prototype, protoProps); if (staticProps) socket_service_defineProperties(Constructor, staticProps); return Constructor; }
+
+function socket_service_applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+function socket_service_initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+
+
+
+
+
+ //export store
+
+var socket_service_socketDomainStore = (socket_service_class =
+/*#__PURE__*/
+function () {
+  function socketDomainStore(rootStore, SERVER) {
+    socket_service_classCallCheck(this, socketDomainStore);
+
+    socket_service_initializerDefineProperty(this, "isConnected", socket_service_descriptor, this);
+
+    this.socket = void 0;
+    this.rootStore = void 0;
+    this.SERVER = void 0;
+    this.mapStore = mobx_module["u" /* observable */].map();
+    this.rootStore = rootStore;
+    this.SERVER = SERVER;
+  }
+
+  socket_service_createClass(socketDomainStore, [{
+    key: "subscribe",
+    value: function subscribe(_ref) {
+      var _this = this;
+
+      var onInit = _ref.onInit,
+          onConnect = _ref.onConnect,
+          onEvent = _ref.onEvent,
+          onDisconnect = _ref.onDisconnect,
+          channel = _ref.channel,
+          port = _ref.port;
+      var domainName = "".concat(this.SERVER.socket, ":").concat(port, "/").concat(channel);
+      var newSocket = lib_default()(domainName);
+      newSocket.on("init", function (data) {
+        onInit(data);
+      });
+      newSocket.on("connect", function () {
+        onConnect();
+      });
+      newSocket.on(channel, function (data) {
+        onEvent(data);
+
+        _this.mapStore.set(channel, []);
+
+        _this.mapStore.set(channel, [data]);
+      });
+      newSocket.on("disconnect", function () {
+        onDisconnect();
+      });
+      this.socket = newSocket;
+    }
+  }, {
+    key: "publish",
+    value: function publish(_ref2) {
+      var _this2 = this;
+
+      var channel = _ref2.channel,
+          value = _ref2.value;
+      console.log(channel, value);
+      return new Promise(function (resolve, reject) {
+        _this2.socket.emit("".concat(channel), value, function (data) {
+          return resolve(data);
+        });
+      });
+    }
+  }, {
+    key: "publishUpdate",
+    value: function publishUpdate(_ref3) {
+      var _this3 = this;
+
+      var channel = _ref3.channel,
+          value = _ref3.value;
+      return new Promise(function (resolve, reject) {
+        _this3.socket.emit("".concat(channel, "-update"), value, function (data) {
+          return resolve(data);
+        });
+      });
+    }
+  }, {
+    key: "publishDelete",
+    value: function publishDelete(_ref4) {
+      var _this4 = this;
+
+      var channel = _ref4.channel,
+          value = _ref4.value;
+      console.log("publish delete", channel, value);
+      return new Promise(function (resolve, reject) {
+        _this4.socket.emit("".concat(channel, "-delete"), value, function (data) {
+          return resolve(data);
+        });
+      });
+    }
+  }]);
+
+  return socketDomainStore;
+}(), (socket_service_descriptor = socket_service_applyDecoratedDescriptor(socket_service_class.prototype, "isConnected", [mobx_module["u" /* observable */]], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return false;
+  }
+}), socket_service_applyDecoratedDescriptor(socket_service_class.prototype, "subscribe", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(socket_service_class.prototype, "subscribe"), socket_service_class.prototype), socket_service_applyDecoratedDescriptor(socket_service_class.prototype, "publish", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(socket_service_class.prototype, "publish"), socket_service_class.prototype), socket_service_applyDecoratedDescriptor(socket_service_class.prototype, "publishUpdate", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(socket_service_class.prototype, "publishUpdate"), socket_service_class.prototype), socket_service_applyDecoratedDescriptor(socket_service_class.prototype, "publishDelete", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(socket_service_class.prototype, "publishDelete"), socket_service_class.prototype)), socket_service_class);
+
+var socket_service_injectProps = function injectProps(socketDomainStore, channel, props, child) {
+  var injected = socket_service_objectSpread({
+    channel: channel,
+    publish: function publish(value) {
+      return socketDomainStore.publish({
+        value: value,
+        channel: channel
+      });
+    },
+    subscribe: function subscribe(_ref5) {
+      var onConnect = _ref5.onConnect,
+          onEvent = _ref5.onEvent,
+          onDisconnect = _ref5.onDisconnect,
+          channel = _ref5.channel,
+          onInit = _ref5.onInit,
+          port = _ref5.port;
+      return socketDomainStore.subscribe({
+        onConnect: onConnect,
+        onEvent: onEvent,
+        onDisconnect: onDisconnect,
+        channel: channel,
+        onInit: onInit,
+        port: port
+      });
+    }
+  }, props, child.props);
+
+  injected["incoming_".concat(channel)] = socketDomainStore.mapStore.get(channel);
+
+  injected["".concat(channel, "_update")] = function (value) {
+    return socketDomainStore.publishUpdate({
+      channel: channel,
+      value: value
+    });
+  };
+
+  injected["".concat(channel, "_delete")] = function (value) {
+    return socketDomainStore.publishDelete({
+      channel: channel,
+      value: value
+    });
+  };
+
+  return injected;
+}; //determine the theme here and load the right login information?
+
+
+var socket_service_Socket = Object(index_module["a" /* observer */])(socket_service_class3 =
+/*#__PURE__*/
+function (_React$Component) {
+  socket_service_inherits(Socket, _React$Component);
+
+  function Socket(props) {
+    socket_service_classCallCheck(this, Socket);
+
+    return socket_service_possibleConstructorReturn(this, socket_service_getPrototypeOf(Socket).call(this, props));
+  }
+
+  socket_service_createClass(Socket, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {}
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {}
+  }, {
+    key: "render",
+    value: function render() {
+      var _this5 = this;
+
+      var _this$props = this.props,
+          channel = _this$props.channel,
+          children = _this$props.children,
+          socketDomainStore = _this$props.socketDomainStore;
+      var childrenWithProps = react_default.a.Children.map(children, function (child) {
+        var injectedProps = socket_service_injectProps(socketDomainStore, channel, _this5.props, child);
+        return react_default.a.cloneElement(child, injectedProps);
+      });
+      return react_default.a.createElement(react_default.a.Fragment, null, childrenWithProps);
+    }
+  }]);
+
+  return Socket;
+}(react_default.a.Component)) || socket_service_class3;
+// CONCATENATED MODULE: ./admin-service/admin-service.js
+var admin_service_class, admin_service_class3;
+
+function admin_service_typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { admin_service_typeof = function _typeof(obj) { return typeof obj; }; } else { admin_service_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return admin_service_typeof(obj); }
+
+function admin_service_possibleConstructorReturn(self, call) { if (call && (admin_service_typeof(call) === "object" || typeof call === "function")) { return call; } return admin_service_assertThisInitialized(self); }
+
+function admin_service_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function admin_service_getPrototypeOf(o) { admin_service_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return admin_service_getPrototypeOf(o); }
+
+function admin_service_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) admin_service_setPrototypeOf(subClass, superClass); }
+
+function admin_service_setPrototypeOf(o, p) { admin_service_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return admin_service_setPrototypeOf(o, p); }
+
+function admin_service_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { admin_service_defineProperty(target, key, source[key]); }); } return target; }
+
+function admin_service_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function admin_service_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function admin_service_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function admin_service_createClass(Constructor, protoProps, staticProps) { if (protoProps) admin_service_defineProperties(Constructor.prototype, protoProps); if (staticProps) admin_service_defineProperties(Constructor, staticProps); return Constructor; }
+
+function admin_service_applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+
+
+
+ //export store
+
+var admin_service_adminDomainStore = (admin_service_class =
+/*#__PURE__*/
+function () {
+  function adminDomainStore(rootStore, SERVER) {
+    admin_service_classCallCheck(this, adminDomainStore);
+
+    this.rootStore = void 0;
+    this.SERVER = void 0;
+    this.schemas = mobx_module["u" /* observable */].map();
+    this.rootStore = rootStore;
+    this.SERVER = SERVER;
+  }
+
+  admin_service_createClass(adminDomainStore, [{
+    key: "getSchemas",
+    value: function getSchemas(refresh) {
+      var _this = this;
+
+      //cached data, you don't have to hit up he end point
+      // console.log(this.schemas.length);
+      if (this.schemas.get("schemas") && !refresh) {
+        return;
+      }
+
+      return axios_default.a.get("".concat(this.SERVER.host, ":").concat(this.SERVER.port, "/schemas")).then(function (res) {
+        Object(mobx_module["x" /* runInAction */])(function () {
+          var schemas = Object.keys(res.data).map(function (key) {
+            var nameObject = {
+              modelName: key
+            };
+
+            var schemas = admin_service_objectSpread({}, nameObject, res.data[key]);
+
+            return schemas;
+          });
+
+          _this.schemas.set("schemas", schemas);
+        });
+      }).catch(function (err) {
+        Object(mobx_module["x" /* runInAction */])(function () {});
+      });
+    }
+  }, {
+    key: "setError",
+    value: function setError(err) {
+      console.error(err);
+    }
+  }]);
+
+  return adminDomainStore;
+}(), (admin_service_applyDecoratedDescriptor(admin_service_class.prototype, "getSchemas", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(admin_service_class.prototype, "getSchemas"), admin_service_class.prototype), admin_service_applyDecoratedDescriptor(admin_service_class.prototype, "setError", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(admin_service_class.prototype, "setError"), admin_service_class.prototype)), admin_service_class);
+
+var admin_service_injectProps = function injectProps(adminDomainStore, props, child) {
+  var injected = admin_service_objectSpread({
+    schemas: adminDomainStore.schemas.get("schemas")
+  }, props, child.props);
+
+  return injected;
+}; //this creates admin components with Modal Editing
+
+
+var admin_service_Admin = Object(index_module["a" /* observer */])(admin_service_class3 =
+/*#__PURE__*/
+function (_React$Component) {
+  admin_service_inherits(Admin, _React$Component);
+
+  function Admin(props) {
+    admin_service_classCallCheck(this, Admin);
+
+    return admin_service_possibleConstructorReturn(this, admin_service_getPrototypeOf(Admin).call(this, props));
+  }
+
+  admin_service_createClass(Admin, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {}
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {}
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var _this$props = this.props,
+          children = _this$props.children,
+          adminDomainStore = _this$props.adminDomainStore;
+      adminDomainStore.getSchemas(false);
+      var childrenWithProps = react_default.a.Children.map(children, function (child) {
+        var injectedProps = admin_service_injectProps(adminDomainStore, _this2.props, child);
+        return react_default.a.cloneElement(child, injectedProps);
+      });
+      return react_default.a.createElement(react_default.a.Fragment, null, childrenWithProps);
+    }
+  }]);
+
+  return Admin;
+}(react_default.a.Component)) || admin_service_class3;
+function withAdmin(WrappedComponent) {
+  var _class4;
+
+  var WithAdmin = Object(index_module["a" /* observer */])(_class4 =
+  /*#__PURE__*/
+  function (_React$Component2) {
+    admin_service_inherits(WithAdmin, _React$Component2);
+
+    function WithAdmin(props) {
+      admin_service_classCallCheck(this, WithAdmin);
+
+      return admin_service_possibleConstructorReturn(this, admin_service_getPrototypeOf(WithAdmin).call(this, props));
+    }
+
+    admin_service_createClass(WithAdmin, [{
+      key: "componentDidMount",
+      value: function componentDidMount() {
+        var adminDomainStore = this.props.adminDomainStore;
+        adminDomainStore.getSchemas(false);
+      }
+    }, {
+      key: "componentWillReceiveProps",
+      value: function componentWillReceiveProps() {}
+    }, {
+      key: "render",
+      value: function render() {
+        var adminDomainStore = this.props.adminDomainStore;
+        var injectedProps = admin_service_injectProps(adminDomainStore, this.props, this);
+        return react_default.a.createElement(WrappedComponent, injectedProps);
+      }
+    }]);
+
+    return WithAdmin;
+  }(react_default.a.Component)) || _class4;
+
+  return WithAdmin;
+}
+// CONCATENATED MODULE: ./media-service/media-service.js
+var media_service_class, media_service_class3;
+
+function media_service_typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { media_service_typeof = function _typeof(obj) { return typeof obj; }; } else { media_service_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return media_service_typeof(obj); }
+
+function media_service_possibleConstructorReturn(self, call) { if (call && (media_service_typeof(call) === "object" || typeof call === "function")) { return call; } return media_service_assertThisInitialized(self); }
+
+function media_service_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function media_service_getPrototypeOf(o) { media_service_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return media_service_getPrototypeOf(o); }
+
+function media_service_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) media_service_setPrototypeOf(subClass, superClass); }
+
+function media_service_setPrototypeOf(o, p) { media_service_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return media_service_setPrototypeOf(o, p); }
+
+function media_service_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { media_service_defineProperty(target, key, source[key]); }); } return target; }
+
+function media_service_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function media_service_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function media_service_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function media_service_createClass(Constructor, protoProps, staticProps) { if (protoProps) media_service_defineProperties(Constructor.prototype, protoProps); if (staticProps) media_service_defineProperties(Constructor, staticProps); return Constructor; }
+
+function media_service_applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+
+
+
+ //export store
+
+var media_service_mediaDomainStore = (media_service_class =
+/*#__PURE__*/
+function () {
+  function mediaDomainStore(rootStore, offlineStorage, SERVER) {
+    media_service_classCallCheck(this, mediaDomainStore);
+
+    this.modelName = void 0;
+    this.gallery = mobx_module["u" /* observable */].map();
+    this.media = mobx_module["u" /* observable */].map();
+    this.rootStore = void 0;
+    this.SERVER = void 0;
+    this.offlineStorage = void 0;
+    this.rootStore = rootStore;
+
+    if (offlineStorage) {
+      this.offlineStorage = offlineStorage;
+    }
+
+    this.SERVER = SERVER;
+  }
+
+  media_service_createClass(mediaDomainStore, [{
+    key: "uploadMedia",
+    value: function uploadMedia(_ref) {
+      var _this = this;
+
+      var modelName = _ref.modelName,
+          extension = _ref.extension,
+          files = _ref.files,
+          modelId = _ref.modelId,
+          isMultiple = _ref.isMultiple,
+          subRoute = _ref.subRoute;
+      var formData = new FormData();
+      files.map(function (file, i) {
+        var blob = new Blob([file], {
+          type: extension
+        }); // WORKS much better (if you know what MIME type you want.
+
+        var fileType = extension.replace("image/", ".");
+        formData.append(modelName + fileType, blob, file.name.split(".")[0]);
+      });
+      var route = isMultiple ? "".concat(subRoute ? subRoute : "/", "gallery") : "".concat(subRoute ? subRoute : "/", "media");
+      return this.offlineStorage.getItem("jwtToken").then(function (token) {
+        return axios_default.a.post("".concat(_this.SERVER.host, ":").concat(_this.SERVER.port, "/").concat(modelName).concat(route, "?token=").concat(token, "&query=").concat(modelId), formData, {
+          headers: {
+            "content-type": "multipart/form-data"
+          }
+        }).then(function (res) {
+          console.log("response from media", res);
+          return res;
+        }).catch(function (err) {
+          return _this.setError(err);
+        });
+      });
+    }
+  }, {
+    key: "deleteMedia",
+    value: function deleteMedia(_ref2) {
+      var _this2 = this;
+
+      var modelName = _ref2.modelName,
+          modelId = _ref2.modelId,
+          fileName = _ref2.fileName,
+          subRoute = _ref2.subRoute;
+      //fileName is just a link, extract image
+      var splitArray = fileName.split("/");
+      var originalFileName = splitArray[splitArray.length - 1];
+      var file = originalFileName.split("?")[0];
+      subRoute = "/remove/";
+      var route = "".concat(subRoute ? subRoute : "/", "media");
+      return this.offlineStorage.getItem("jwtToken").then(function (token) {
+        return axios_default.a.delete("".concat(_this2.SERVER.host, ":").concat(_this2.SERVER.port, "/").concat(modelName).concat(route, "?token=").concat(token, "&query=").concat(modelId, "&fileName=").concat(file)).then(function (res) {
+          console.log("response from media", res);
+          return res;
+        }).catch(function (err) {
+          return _this2.setError(err);
+        });
+      });
+    }
+  }, {
+    key: "setError",
+    value: function setError(err) {
+      console.error(err);
+    }
+  }]);
+
+  return mediaDomainStore;
+}(), (media_service_applyDecoratedDescriptor(media_service_class.prototype, "uploadMedia", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(media_service_class.prototype, "uploadMedia"), media_service_class.prototype), media_service_applyDecoratedDescriptor(media_service_class.prototype, "setError", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(media_service_class.prototype, "setError"), media_service_class.prototype)), media_service_class);
+
+var media_service_injectProps = function injectProps(_ref3) {
+  var mediaDomainStore = _ref3.mediaDomainStore,
+      modelName = _ref3.modelName,
+      props = _ref3.props,
+      child = _ref3.child,
+      extension = _ref3.extension,
+      subRoute = _ref3.subRoute;
+
+  var injected = media_service_objectSpread({}, props, child.props);
+
+  injected["".concat(modelName, "_gallery")] = mediaDomainStore.gallery.get(modelName);
+
+  injected["".concat(modelName, "_gallery_upload")] = function (modelId, files) {
+    return mediaDomainStore.uploadMedia({
+      modelName: modelName,
+      extension: extension,
+      isMultiple: true,
+      files: files,
+      modelId: modelId,
+      subRoute: subRoute
+    });
+  };
+
+  injected["".concat(modelName, "_media")] = mediaDomainStore.media.get(modelName);
+
+  injected["".concat(modelName, "_media_upload")] = function (modelId, files) {
+    return mediaDomainStore.uploadMedia({
+      modelName: modelName,
+      extension: extension,
+      isMultiple: false,
+      files: files,
+      modelId: modelId,
+      subRoute: subRoute
+    });
+  };
+
+  injected["".concat(modelName, "_media_delete")] = function (modelId, fileName) {
+    return mediaDomainStore.deleteMedia({
+      modelName: modelName,
+      modelId: modelId,
+      fileName: fileName,
+      subRoute: subRoute
+    });
+  };
+
+  return injected;
+}; //determine the theme here and load the right login information?
+
+
+var media_service_Media = Object(index_module["a" /* observer */])(media_service_class3 =
+/*#__PURE__*/
+function (_React$Component) {
+  media_service_inherits(Media, _React$Component);
+
+  function Media(props) {
+    media_service_classCallCheck(this, Media);
+
+    return media_service_possibleConstructorReturn(this, media_service_getPrototypeOf(Media).call(this, props));
+  }
+
+  media_service_createClass(Media, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {}
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {}
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      var _this$props = this.props,
+          modelName = _this$props.modelName,
+          children = _this$props.children,
+          mediaDomainStore = _this$props.mediaDomainStore,
+          extension = _this$props.extension,
+          subRoute = _this$props.subRoute;
+      var childrenWithProps = react_default.a.Children.map(children, function (child) {
+        var injectedProps = media_service_injectProps({
+          mediaDomainStore: mediaDomainStore,
+          modelName: modelName,
+          props: _this3.props,
+          child: child,
+          extension: extension,
+          subRoute: subRoute
+        });
+        return react_default.a.cloneElement(child, injectedProps);
+      });
+      return react_default.a.createElement(react_default.a.Fragment, null, childrenWithProps);
+    }
+  }]);
+
+  return Media;
+}(react_default.a.Component)) || media_service_class3;
+// CONCATENATED MODULE: ./forms-service/forms-service.js
+var forms_service_class, forms_service_class3;
+
+function forms_service_typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { forms_service_typeof = function _typeof(obj) { return typeof obj; }; } else { forms_service_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return forms_service_typeof(obj); }
+
+function forms_service_possibleConstructorReturn(self, call) { if (call && (forms_service_typeof(call) === "object" || typeof call === "function")) { return call; } return forms_service_assertThisInitialized(self); }
+
+function forms_service_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function forms_service_getPrototypeOf(o) { forms_service_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return forms_service_getPrototypeOf(o); }
+
+function forms_service_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) forms_service_setPrototypeOf(subClass, superClass); }
+
+function forms_service_setPrototypeOf(o, p) { forms_service_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return forms_service_setPrototypeOf(o, p); }
+
+function forms_service_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { forms_service_defineProperty(target, key, source[key]); }); } return target; }
+
+function forms_service_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function forms_service_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function forms_service_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function forms_service_createClass(Constructor, protoProps, staticProps) { if (protoProps) forms_service_defineProperties(Constructor.prototype, protoProps); if (staticProps) forms_service_defineProperties(Constructor, staticProps); return Constructor; }
+
+function forms_service_applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+
+
+
+ //export store
+
+var forms_service_formsDomainStore = (forms_service_class =
+/*#__PURE__*/
+function () {
+  function formsDomainStore(rootStore, offlineStorage, SERVER) {
+    forms_service_classCallCheck(this, formsDomainStore);
+
+    this.modelName = void 0;
+    this.mapStore = mobx_module["u" /* observable */].map();
+    this.rootStore = void 0;
+    this.SERVER = void 0;
+    this.offlineStorage = void 0;
+    this.rootStore = rootStore;
+
+    if (offlineStorage) {
+      this.offlineStorage = offlineStorage;
+    }
+
+    this.SERVER = SERVER;
+  }
+
+  forms_service_createClass(formsDomainStore, [{
+    key: "getModel",
+    value: function getModel(modelName, refresh) {
+      var _this = this;
+
+      //cached data, you don't have to hit up he end point
+      if (this.mapStore.get(modelName) && !refresh) {
+        return;
+      }
+
+      return this.offlineStorage.getItem("jwtToken").then(function (token) {
+        return axios_default.a.get("".concat(_this.SERVER.host, ":").concat(_this.SERVER.port, "/").concat(modelName, "/forms"), {
+          params: {
+            token: token
+          }
+        }).then(function (res) {
+          Object(mobx_module["x" /* runInAction */])(function () {
+            _this.mapStore.set(modelName, res.data);
+          });
+        }).catch(function (err) {
+          Object(mobx_module["x" /* runInAction */])(function () {});
+        });
+      });
+    }
+  }, {
+    key: "setError",
+    value: function setError(err) {
+      console.error(err);
+    }
+  }]);
+
+  return formsDomainStore;
+}(), (forms_service_applyDecoratedDescriptor(forms_service_class.prototype, "getModel", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(forms_service_class.prototype, "getModel"), forms_service_class.prototype), forms_service_applyDecoratedDescriptor(forms_service_class.prototype, "setError", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(forms_service_class.prototype, "setError"), forms_service_class.prototype)), forms_service_class);
+
+var forms_service_injectProps = function injectProps(formsDomainStore, modelName, props, child) {
+  var injected = forms_service_objectSpread({
+    form: formsDomainStore.mapStore.get(modelName)
+  }, props, child.props);
+
+  injected["".concat(modelName, "_form")] = formsDomainStore.mapStore.get(modelName);
+  return injected;
+}; //determine the theme here and load the right login information?
+
+
+var forms_service_Forms = Object(index_module["a" /* observer */])(forms_service_class3 =
+/*#__PURE__*/
+function (_React$Component) {
+  forms_service_inherits(Forms, _React$Component);
+
+  function Forms(props) {
+    forms_service_classCallCheck(this, Forms);
+
+    return forms_service_possibleConstructorReturn(this, forms_service_getPrototypeOf(Forms).call(this, props));
+  }
+
+  forms_service_createClass(Forms, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {}
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {}
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var _this$props = this.props,
+          modelName = _this$props.modelName,
+          children = _this$props.children,
+          formsDomainStore = _this$props.formsDomainStore;
+
+      if (modelName) {
+        formsDomainStore.getModel(modelName, false);
+      }
+
+      console.log("rerender forms services", modelName);
+      var childrenWithProps = react_default.a.Children.map(children, function (child) {
+        var injectedProps = forms_service_injectProps(formsDomainStore, modelName, _this2.props, child);
+        return react_default.a.cloneElement(child, injectedProps);
+      });
+      return react_default.a.createElement(react_default.a.Fragment, null, childrenWithProps);
+    }
+  }]);
+
+  return Forms;
+}(react_default.a.Component)) || forms_service_class3;
+// CONCATENATED MODULE: ./notification-service/notification-service.js
+var notification_service_class, notification_service_class3;
+
+function notification_service_typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { notification_service_typeof = function _typeof(obj) { return typeof obj; }; } else { notification_service_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return notification_service_typeof(obj); }
+
+function notification_service_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { notification_service_defineProperty(target, key, source[key]); }); } return target; }
+
+function notification_service_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function notification_service_possibleConstructorReturn(self, call) { if (call && (notification_service_typeof(call) === "object" || typeof call === "function")) { return call; } return notification_service_assertThisInitialized(self); }
+
+function notification_service_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function notification_service_getPrototypeOf(o) { notification_service_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return notification_service_getPrototypeOf(o); }
+
+function notification_service_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) notification_service_setPrototypeOf(subClass, superClass); }
+
+function notification_service_setPrototypeOf(o, p) { notification_service_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return notification_service_setPrototypeOf(o, p); }
+
+function notification_service_toConsumableArray(arr) { return notification_service_arrayWithoutHoles(arr) || notification_service_iterableToArray(arr) || notification_service_nonIterableSpread(); }
+
+function notification_service_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function notification_service_iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function notification_service_arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function notification_service_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function notification_service_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function notification_service_createClass(Constructor, protoProps, staticProps) { if (protoProps) notification_service_defineProperties(Constructor.prototype, protoProps); if (staticProps) notification_service_defineProperties(Constructor, staticProps); return Constructor; }
+
+function notification_service_applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+
+
+
+ //export store
+
+var notification_service_notificationDomainStore = (notification_service_class =
+/*#__PURE__*/
+function () {
+  function notificationDomainStore(rootStore, offlineStorage, SERVER) {
+    notification_service_classCallCheck(this, notificationDomainStore);
+
+    this.modelName = void 0;
+    this.mapStore = mobx_module["u" /* observable */].map();
+    this.rootStore = void 0;
+    this.SERVER = void 0;
+    this.offlineStorage = void 0;
+    this.rootStore = rootStore;
+
+    if (offlineStorage) {
+      this.offlineStorage = offlineStorage;
+    }
+
+    this.SERVER = SERVER;
+  }
+
+  notification_service_createClass(notificationDomainStore, [{
+    key: "forceUpdate",
+    value: function forceUpdate(modelName) {
+      var current = this.mapStore.get(modelName);
+      this.mapStore.set(modelName, []);
+      this.mapStore.set(modelName, current);
+    }
+  }, {
+    key: "subscribe",
+    value: function subscribe(_ref) {
+      var _this = this;
+
+      var onInit = _ref.onInit,
+          onConnect = _ref.onConnect,
+          onEvent = _ref.onEvent,
+          onDisconnect = _ref.onDisconnect,
+          port = _ref.port,
+          modelName = _ref.modelName,
+          server = _ref.server;
+      var domainName = "".concat(server, ":").concat(port, "/").concat(modelName);
+      var newSocket = lib_default()(domainName);
+      newSocket.on("init", function (data) {
+        onInit(data);
+      });
+      newSocket.on("connect", function () {
+        onConnect();
+      });
+      newSocket.on("notification", function (data) {
+        onEvent(data);
+
+        _this.mapStore.set("notification", []);
+
+        _this.mapStore.set("notification", [data]);
+      });
+      newSocket.on("disconnect", function () {
+        onDisconnect();
+      });
+      this.socket = newSocket;
+    }
+  }, {
+    key: "publish",
+    value: function publish(_ref2) {
+      var _this2 = this;
+
+      var channel = _ref2.channel,
+          value = _ref2.value;
+      return new Promise(function (resolve, reject) {
+        _this2.socket.emit("".concat(channel), value, function (data) {
+          return resolve(data);
+        });
+      });
+    }
+  }, {
+    key: "saveNotification",
+    value: function saveNotification(modelName, notificationObject) {
+      var notifications = this.mapStore.get(modelName);
+
+      if (!notifications) {
+        this.mapStore.set(modelName, []);
+        notifications = [];
+      }
+
+      var current = this.mapStore.get(modelName);
+      this.mapStore.set(modelName, notification_service_toConsumableArray(current).concat([notificationObject]));
+    }
+  }, {
+    key: "removeNotification",
+    value: function removeNotification(modelName, notificationObject) {
+      notificationObject.deleted = true;
+      this.forceUpdate(modelName);
+    }
+  }]);
+
+  return notificationDomainStore;
+}(), (notification_service_applyDecoratedDescriptor(notification_service_class.prototype, "forceUpdate", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(notification_service_class.prototype, "forceUpdate"), notification_service_class.prototype), notification_service_applyDecoratedDescriptor(notification_service_class.prototype, "subscribe", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(notification_service_class.prototype, "subscribe"), notification_service_class.prototype), notification_service_applyDecoratedDescriptor(notification_service_class.prototype, "publish", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(notification_service_class.prototype, "publish"), notification_service_class.prototype), notification_service_applyDecoratedDescriptor(notification_service_class.prototype, "saveNotification", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(notification_service_class.prototype, "saveNotification"), notification_service_class.prototype), notification_service_applyDecoratedDescriptor(notification_service_class.prototype, "removeNotification", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(notification_service_class.prototype, "removeNotification"), notification_service_class.prototype)), notification_service_class); //determine the theme here and load the right login information?
+
+var notification_service_Notification = Object(index_module["a" /* observer */])(notification_service_class3 =
+/*#__PURE__*/
+function (_React$Component) {
+  notification_service_inherits(Notification, _React$Component);
+
+  function Notification(props) {
+    notification_service_classCallCheck(this, Notification);
+
+    return notification_service_possibleConstructorReturn(this, notification_service_getPrototypeOf(Notification).call(this, props));
+  }
+
+  notification_service_createClass(Notification, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this$props = this.props,
+          children = _this$props.children,
+          notificationDomainStore = _this$props.notificationDomainStore,
+          modelName = _this$props.modelName;
+      notificationDomainStore.subscribe({
+        modelName: modelName,
+        port: "5000",
+        server: "http://localhost",
+        onInit: function onInit() {
+          console.log("on init");
+        },
+        onConnect: function onConnect() {
+          console.log("on connected");
+        },
+        onEvent: function onEvent(data) {
+          notificationDomainStore.saveNotification(modelName, {
+            type: "warning",
+            message: data
+          });
+        },
+        onDisconnect: function onDisconnect() {
+          console.log("disconnected");
+        }
+      });
+    }
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {}
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {}
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      var _this$props2 = this.props,
+          children = _this$props2.children,
+          notificationDomainStore = _this$props2.notificationDomainStore,
+          modelName = _this$props2.modelName;
+      var childrenWithProps = react_default.a.Children.map(children, function (child) {
+        return react_default.a.cloneElement(child, notification_service_objectSpread({
+          notifications: notificationDomainStore.mapStore.get(modelName),
+          saveNotification: function saveNotification(notificationObject) {
+            return notificationDomainStore.saveNotification(modelName, notificationObject);
+          },
+          removeNotification: function removeNotification(notificationObject) {
+            return notificationDomainStore.removeNotification(modelName, notificationObject);
+          }
+        }, _this3.props, child.props));
+      });
+      return react_default.a.createElement(react_default.a.Fragment, null, childrenWithProps);
+    }
+  }]);
+
+  return Notification;
+}(react_default.a.Component)) || notification_service_class3;
+// CONCATENATED MODULE: ./game-service/game-service.js
+var game_service_class, game_service_descriptor, game_service_descriptor2, game_service_class3;
+
+function game_service_typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { game_service_typeof = function _typeof(obj) { return typeof obj; }; } else { game_service_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return game_service_typeof(obj); }
+
+function game_service_possibleConstructorReturn(self, call) { if (call && (game_service_typeof(call) === "object" || typeof call === "function")) { return call; } return game_service_assertThisInitialized(self); }
+
+function game_service_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function game_service_getPrototypeOf(o) { game_service_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return game_service_getPrototypeOf(o); }
+
+function game_service_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) game_service_setPrototypeOf(subClass, superClass); }
+
+function game_service_setPrototypeOf(o, p) { game_service_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return game_service_setPrototypeOf(o, p); }
+
+function game_service_initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
+
+function game_service_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function game_service_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function game_service_createClass(Constructor, protoProps, staticProps) { if (protoProps) game_service_defineProperties(Constructor.prototype, protoProps); if (staticProps) game_service_defineProperties(Constructor, staticProps); return Constructor; }
+
+function game_service_applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+
+function game_service_initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+
+
+
+ //export store
+
+var game_service_gameDomainStore = (game_service_class =
+/*#__PURE__*/
+function () {
+  function gameDomainStore(rootStore, offlineStorage, SERVER) {
+    game_service_classCallCheck(this, gameDomainStore);
+
+    game_service_initializerDefineProperty(this, "characterPosition", game_service_descriptor, this);
+
+    game_service_initializerDefineProperty(this, "stageX", game_service_descriptor2, this);
+
+    this.modelName = void 0;
+    this.mapStore = mobx_module["u" /* observable */].map();
+    this.rootStore = void 0;
+    this.SERVER = void 0;
+    this.offlineStorage = void 0;
+    this.rootStore = rootStore;
+
+    if (offlineStorage) {
+      this.offlineStorage = offlineStorage;
+    }
+
+    this.SERVER = SERVER;
+    this.setCharacterPosition = this.setCharacterPosition.bind(this);
+    this.setStageX = this.setStageX.bind(this);
+  }
+
+  game_service_createClass(gameDomainStore, [{
+    key: "setCharacterPosition",
+    value: function setCharacterPosition(position) {
+      this.characterPosition = position;
+    }
+  }, {
+    key: "setStageX",
+    value: function setStageX(x) {
+      if (x > 0) {
+        this.stageX = 0;
+      } else if (x < -2048) {
+        this.stageX = -2048;
+      } else {
+        this.stageX = x;
+      }
+    }
+  }]);
+
+  return gameDomainStore;
+}(), (game_service_descriptor = game_service_applyDecoratedDescriptor(game_service_class.prototype, "characterPosition", [mobx_module["u" /* observable */]], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return {
+      x: 0,
+      y: 0
+    };
+  }
+}), game_service_descriptor2 = game_service_applyDecoratedDescriptor(game_service_class.prototype, "stageX", [mobx_module["u" /* observable */]], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return 0;
+  }
+}), game_service_applyDecoratedDescriptor(game_service_class.prototype, "setCharacterPosition", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(game_service_class.prototype, "setCharacterPosition"), game_service_class.prototype), game_service_applyDecoratedDescriptor(game_service_class.prototype, "setStageX", [mobx_module["h" /* action */]], Object.getOwnPropertyDescriptor(game_service_class.prototype, "setStageX"), game_service_class.prototype)), game_service_class); //determine the theme here and load the right login information?
+
+var game_service_Game = Object(index_module["a" /* observer */])(game_service_class3 =
+/*#__PURE__*/
+function (_React$Component) {
+  game_service_inherits(Game, _React$Component);
+
+  function Game(props) {
+    game_service_classCallCheck(this, Game);
+
+    return game_service_possibleConstructorReturn(this, game_service_getPrototypeOf(Game).call(this, props));
+  }
+
+  game_service_createClass(Game, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {}
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {}
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          gameDomainStore = _this$props.gameDomainStore,
+          children = _this$props.children;
+      var childrenWithProps = react_default.a.Children.map(children, function (child) {
+        return react_default.a.cloneElement(child, {
+          characterPosition: gameDomainStore.characterPosition,
+          setCharacterPosition: gameDomainStore.setCharacterPosition,
+          setStageX: gameDomainStore.setStageX,
+          stageX: gameDomainStore.stageX,
+          fileLocation: "".concat(gameDomainStore.SERVER.host, ":").concat(gameDomainStore.SERVER.port, "/game/file")
+        });
+      });
+      return react_default.a.createElement(react_default.a.Fragment, null, childrenWithProps);
+    }
+  }]);
+
+  return Game;
+}(react_default.a.Component)) || game_service_class3;
+// CONCATENATED MODULE: ./index.js
+/* concated harmony reexport LoginWithAuth */__webpack_require__.d(__webpack_exports__, "LoginWithAuth", function() { return LoginWithAuth; });
+/* concated harmony reexport RegisterWithAuth */__webpack_require__.d(__webpack_exports__, "RegisterWithAuth", function() { return RegisterWithAuth; });
+/* concated harmony reexport authDomainStore */__webpack_require__.d(__webpack_exports__, "authDomainStore", function() { return auth_service_authDomainStore; });
+/* concated harmony reexport authUiStore */__webpack_require__.d(__webpack_exports__, "authUiStore", function() { return auth_service_authUiStore; });
+/* concated harmony reexport withAuth */__webpack_require__.d(__webpack_exports__, "withAuth", function() { return withAuth; });
+/* concated harmony reexport Auth */__webpack_require__.d(__webpack_exports__, "Auth", function() { return auth_service_Auth; });
+/* concated harmony reexport Crud */__webpack_require__.d(__webpack_exports__, "Crud", function() { return crud_service_mst_Crud; });
+/* concated harmony reexport crudDomainStore */__webpack_require__.d(__webpack_exports__, "crudDomainStore", function() { return crud_service_crudDomainStore; });
+/* concated harmony reexport withCrud */__webpack_require__.d(__webpack_exports__, "withCrud", function() { return crud_service_mst_withCrud; });
+/* concated harmony reexport Socket */__webpack_require__.d(__webpack_exports__, "Socket", function() { return socket_service_Socket; });
+/* concated harmony reexport socketDomainStore */__webpack_require__.d(__webpack_exports__, "socketDomainStore", function() { return socket_service_socketDomainStore; });
+/* concated harmony reexport Admin */__webpack_require__.d(__webpack_exports__, "Admin", function() { return admin_service_Admin; });
+/* concated harmony reexport withAdmin */__webpack_require__.d(__webpack_exports__, "withAdmin", function() { return withAdmin; });
+/* concated harmony reexport adminDomainStore */__webpack_require__.d(__webpack_exports__, "adminDomainStore", function() { return admin_service_adminDomainStore; });
+/* concated harmony reexport Media */__webpack_require__.d(__webpack_exports__, "Media", function() { return media_service_Media; });
+/* concated harmony reexport mediaDomainStore */__webpack_require__.d(__webpack_exports__, "mediaDomainStore", function() { return media_service_mediaDomainStore; });
+/* concated harmony reexport Forms */__webpack_require__.d(__webpack_exports__, "Forms", function() { return forms_service_Forms; });
+/* concated harmony reexport formsDomainStore */__webpack_require__.d(__webpack_exports__, "formsDomainStore", function() { return forms_service_formsDomainStore; });
+/* concated harmony reexport Notification */__webpack_require__.d(__webpack_exports__, "Notification", function() { return notification_service_Notification; });
+/* concated harmony reexport notificationDomainStore */__webpack_require__.d(__webpack_exports__, "notificationDomainStore", function() { return notification_service_notificationDomainStore; });
+/* concated harmony reexport Game */__webpack_require__.d(__webpack_exports__, "Game", function() { return game_service_Game; });
+/* concated harmony reexport gameDomainStore */__webpack_require__.d(__webpack_exports__, "gameDomainStore", function() { return game_service_gameDomainStore; });
+/* concated harmony reexport Event */__webpack_require__.d(__webpack_exports__, "Event", function() { return event_service_Event; });
+/* concated harmony reexport EventWithCrud */__webpack_require__.d(__webpack_exports__, "EventWithCrud", function() { return event_service_EventWithCrud; });
+/* concated harmony reexport Camera */__webpack_require__.d(__webpack_exports__, "Camera", function() { return camera_service; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ })
+
+/******/ });
+});
