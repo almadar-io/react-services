@@ -3,18 +3,21 @@ var webpack = require("webpack");
 var path = require("path");
 
 module.exports = {
-  entry: {
-    index: "./index.js"
-  },
+  entry: "./index.js",
   output: {
     path: path.join(__dirname, "lib"),
-    filename: "[name].js",
-    publicPath: "/lib/"
+    filename: "react-services.js",
+    publicPath: "/lib/",
+    library: "react-services",
+    libraryTarget: "umd",
+    umdNamedDefine: true // Important
   },
-  optimization: {
-    splitChunks: {
-      // include all types of chunks
-      chunks: "all"
+  externals: {
+    react: {
+      commonjs: "react",
+      commonjs2: "react",
+      amd: "react",
+      root: "react"
     }
   },
   module: {
