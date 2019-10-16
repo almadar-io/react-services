@@ -2,7 +2,7 @@
   "name": "@markab.io/react",
   "version": "1.8.0",
   "description": "A way to get up and running quickly with any programming task.",
-  "main": "./index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "build": "rm -rf lib/* && webpack",
     "test": "echo \"Error: no test specified\" && exit 1"

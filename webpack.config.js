@@ -13,12 +13,6 @@ module.exports = {
     libraryTarget: "umd",
     umdNamedDefine: true
   },
-  optimization: {
-    splitChunks: {
-      // include all types of chunks
-      chunks: "all"
-    }
-  },
   module: {
     rules: [
       {
