@@ -4,7 +4,7 @@
   "description": "A way to get up and running quickly with any programming task.",
   "main": "./lib/index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "rm -rf lib/* && webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
