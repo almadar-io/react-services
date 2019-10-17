@@ -1,6 +1,8 @@
 "use strict";
 var webpack = require("webpack");
 var path = require("path");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
 
 module.exports = {
   entry: "./index.js",
@@ -18,7 +20,40 @@ module.exports = {
       commonjs2: "react",
       amd: "react",
       root: "react"
+    },
+    "react-dom": {
+      commonjs: "react-dom",
+      commonjs2: "react-dom",
+      amd: "react-dom",
+      root: "react-dom"
+    },
+    mobx: {
+      commonjs: "mobx",
+      commonjs2: "mobx",
+      amd: "mobx",
+      root: "mobx"
+    },
+    "mobx-react": {
+      commonjs: "mobx-react",
+      commonjs2: "mobx-react",
+      amd: "mobx-react",
+      root: "mobx-react"
+    },
+    "mobx-state-tree": {
+      commonjs: "mobx-state-tree",
+      commonjs2: "mobx-state-tree",
+      amd: "mobx-state-tree",
+      root: "mobx-state-tree"
+    },
+    moment: {
+      commonjs: "moment",
+      commonjs2: "moment",
+      amd: "moment",
+      root: "moment"
     }
+  },
+  optimization: {
+    usedExports: true
   },
   module: {
     rules: [
@@ -42,6 +77,7 @@ module.exports = {
       }
     ]
   },
+  plugins: [new BundleAnalyzerPlugin()],
   //To run development server
   devServer: {
     contentBase: __dirname
