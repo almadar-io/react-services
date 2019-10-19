@@ -84,26 +84,26 @@ export class Notification extends React.Component {
   }
   componentDidMount() {
     let { children, notificationDomainStore, modelName } = this.props;
-    notificationDomainStore.subscribe({
-      modelName,
-      port: "5000",
-      server: "http://localhost",
-      onInit: () => {
-        console.log("on init");
-      },
-      onConnect: () => {
-        console.log("on connected");
-      },
-      onEvent: data => {
-        notificationDomainStore.saveNotification(modelName, {
-          type: "warning",
-          message: data
-        });
-      },
-      onDisconnect: () => {
-        console.log("disconnected");
-      }
-    });
+    // notificationDomainStore.subscribe({
+    //   modelName,
+    //   port: "5000",
+    //   server: "http://localhost",
+    //   onInit: () => {
+    //     console.log("on init");
+    //   },
+    //   onConnect: () => {
+    //     console.log("on connected");
+    //   },
+    //   onEvent: data => {
+    //     notificationDomainStore.saveNotification(modelName, {
+    //       type: "warning",
+    //       message: data
+    //     });
+    //   },
+    //   onDisconnect: () => {
+    //     console.log("disconnected");
+    //   }
+    // });
   }
   componentWillReceiveProps(nextProps) {}
   componentDidUpdate() {}
