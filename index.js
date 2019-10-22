@@ -9,10 +9,8 @@ import {
 import { crudDomainStore } from "./crud-service/crud-service";
 import { Crud, withCrud } from "./crud-service/crud-service-mst";
 import { Event, EventWithCrud } from "./event-service/event-service";
-import Camera from "./camera-service/camera-service";
 import { Viz } from "./viz-service/viz-service";
 import { Kb } from "./kb-service/kb-service";
-import { Unsplash } from "./unsplash-service/unsplash-service";
 import { Socket, socketDomainStore } from "./socket-service/socket-service";
 import {
   Admin,
@@ -51,8 +49,6 @@ export {
   gameDomainStore,
   Event,
   EventWithCrud,
-  Camera,
   Viz,
-  Kb,
-  Unsplash
+  Kb
 };
