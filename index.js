@@ -19,6 +19,7 @@ import {
 } from "./admin-service/admin-service";
 import { Media, mediaDomainStore } from "./media-service/media-service";
 import { Forms, formsDomainStore } from "./forms-service/forms-service";
+import { Settings, settingsDomainStore } from "./settings-service/settings-service";
 import {
   Notification,
   notificationDomainStore
