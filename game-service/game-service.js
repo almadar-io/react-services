@@ -57,10 +57,7 @@ export class Game extends React.Component {
         characterPosition: gameDomainStore.characterPosition,
         setCharacterPosition: gameDomainStore.setCharacterPosition,
         setStageX: gameDomainStore.setStageX,
-        stageX: gameDomainStore.stageX,
-        fileLocation: `${gameDomainStore.SERVER.host}:${
-          gameDomainStore.SERVER.port
-        }/game/file`
+        stageX: gameDomainStore.stageX
       });
     });
     return <React.Fragment>{childrenWithProps}</React.Fragment>;
