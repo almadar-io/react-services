@@ -51,13 +51,14 @@ export class Game extends React.Component {
   componentWillReceiveProps(nextProps) {}
   componentDidUpdate() {}
   render() {
-    let { gameDomainStore, children } = this.props;
+    let { gameDomainStore, children, ...rest } = this.props;
     const childrenWithProps = React.Children.map(children, child => {
       return React.cloneElement(child, {
         characterPosition: gameDomainStore.characterPosition,
         setCharacterPosition: gameDomainStore.setCharacterPosition,
         setStageX: gameDomainStore.setStageX,
-        stageX: gameDomainStore.stageX
+        stageX: gameDomainStore.stageX,
+        ...rest
       });
     });
     return <React.Fragment>{childrenWithProps}</React.Fragment>;
