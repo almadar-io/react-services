@@ -58,6 +58,7 @@ export class Game extends React.Component {
         setCharacterPosition: gameDomainStore.setCharacterPosition,
         setStageX: gameDomainStore.setStageX,
         stageX: gameDomainStore.stageX,
+        ...child.props,
         ...rest
       });
     });
