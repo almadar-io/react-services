@@ -233,7 +233,6 @@ const injectProps = (
     crudDomainStore.removeFilter(filter);
 
   injected[`${modelName}_loading`] = crudDomainStore.isLoading();
-
   return injected;
 };
 
@@ -254,7 +253,8 @@ class CrudContainer extends React.Component {
       transform,
       offlineStorage,
       SERVER,
-      notificationDomainStore
+      notificationDomainStore,
+      render
     } = this.props;
     if (modelName && !this.stores[modelName] && !skipLoadOnInit) {
       const crudDomainStore = getCrudDomainStore(
@@ -277,7 +277,8 @@ class CrudContainer extends React.Component {
         modelName,
         this.props,
         child,
-        transform
+        transform,
+        render
       );
       return React.cloneElement(child, { ...injectedProps });
     });
