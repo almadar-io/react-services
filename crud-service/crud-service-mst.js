@@ -25,14 +25,14 @@ export const getCrudDomainStore = (
       filters: types.array(Filter)
     })
     .actions(self => ({
-      fetchModel() {
+      fetchModel(query) {
         self.loading = true;
         return offlineStorage
           .getItem("jwtToken")
           .then(token => {
             return axios
               .get(`${SERVER.host}:${SERVER.port}/${modelName}`, {
-                params: { token }
+                params: { token, query }
               })
               .then(res => {
                 transform
@@ -186,7 +186,14 @@ export const getCrudDomainStore = (
       }
     }));
 
-const injectProps = (crudDomainStore, modelName, props, child, transform) => {
+const injectProps = (
+  crudDomainStore,
+  modelName,
+  props,
+  child,
+  transform,
+  render
+) => {
   let injected = {
     ...props,
     ...child.props
@@ -215,6 +222,7 @@ const injectProps = (crudDomainStore, modelName, props, child, transform) => {
         return { res };
       });
     });
+    render && render(injected);
     return promises;
   };
 
@@ -283,17 +291,18 @@ export function withCrud(WrappedComponent) {
       super(props);
     }
     componentDidMount() {
-      let { crudDomainStore, transform } = this.props;
-      crudDomainStore.getModel(transform);
+      let { crudDomainStore, transform, query } = this.props;
+      crudDomainStore.getModel(query, transform);
     }
     componentWillReceiveProps() {}
     render() {
-      let { crudDomainStore, transform } = this.props;
+      let { crudDomainStore, transform, render } = this.props;
       let injectedProps = injectProps(
         crudDomainStore,
         this.props,
         this,
-        transform
+        transform,
+        render
       );
       return <WrappedComponent {...injectedProps} />;
     }
