@@ -186,14 +186,7 @@ export const getCrudDomainStore = (
       }
     }));
 
-const injectProps = (
-  crudDomainStore,
-  modelName,
-  props,
-  child,
-  transform,
-  render
-) => {
+const injectProps = (crudDomainStore, modelName, props, child, transform) => {
   let injected = {
     ...props,
     ...child.props
@@ -222,7 +215,6 @@ const injectProps = (
         return { res };
       });
     });
-    render && render(injected);
     return promises;
   };
 
@@ -271,17 +263,18 @@ class CrudContainer extends React.Component {
       crudDomainStore.fetchModel();
       this.stores[modelName] = crudDomainStore;
     }
-    const childrenWithProps = React.Children.map(children, child => {
-      let injectedProps = injectProps(
-        this.stores[modelName],
-        modelName,
-        this.props,
-        child,
-        transform,
-        render
-      );
-      return React.cloneElement(child, { ...injectedProps });
-    });
+    const childrenWithProps = render
+      ? render(injectProps(this.stores[modelName], modelName, this.props, {}))
+      : React.Children.map(children, child => {
+          let injectedProps = injectProps(
+            this.stores[modelName],
+            modelName,
+            this.props,
+            child,
+            transform
+          );
+          return React.cloneElement(child, { ...injectedProps });
+        });
     return <React.Fragment>{childrenWithProps}</React.Fragment>;
   }
 }
@@ -297,13 +290,12 @@ export function withCrud(WrappedComponent) {
     }
     componentWillReceiveProps() {}
     render() {
-      let { crudDomainStore, transform, render } = this.props;
+      let { crudDomainStore, transform } = this.props;
       let injectedProps = injectProps(
         crudDomainStore,
         this.props,
         this,
-        transform,
-        render
+        transform
       );
       return <WrappedComponent {...injectedProps} />;
     }
