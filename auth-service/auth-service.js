@@ -164,7 +164,8 @@ export const api = {
 
 //determine the theme here and load the right login information?
 export const LoginWithAuth = observer(
-  ({ children, authUiStore, authDomainStore }) => {
+  ({ children, authUiStore, authDomainStore, ...rest }) => {
+    console.log(rest, "REST");
     let decoratedLogin = React.Children.map(children, child =>
       React.cloneElement(child, {
         onChange: (field, value) => {
@@ -176,6 +177,7 @@ export const LoginWithAuth = observer(
         onProviderAuth: providerName => {
           authDomainStore.loginWithProvider(providerName);
         },
+        ...rest,
         ...child.props
       })
     );
