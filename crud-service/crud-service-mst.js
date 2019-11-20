@@ -225,7 +225,6 @@ const injectProps = (crudDomainStore, modelName, props, child, transform) => {
     crudDomainStore.removeFilter(filter);
 
   injected[`${modelName}_loading`] = crudDomainStore.isLoading();
-
   return injected;
 };
 
@@ -264,7 +263,6 @@ class CrudContainer extends React.Component {
       crudDomainStore.fetchModel();
       this.stores[modelName] = crudDomainStore;
     }
-
     const childrenWithProps = render
       ? render(injectProps(this.stores[modelName], modelName, this.props, {}))
       : React.Children.map(children, child => {
